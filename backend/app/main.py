@@ -1,15 +1,28 @@
 from fastapi import FastAPI
 
+from app.core.config import settings
+from app.db import models
+from app.db.database import Base, engine
+from app.routers import auth, simulation
+
+
+Base.metadata.create_all(bind=engine)
+
+
 app = FastAPI(
-    title="OilTrace Backend",
+    title=settings.app_name,
     description="Backend API for OilTrace oil spill simulation system",
-    version="1.0.0"
+    version=settings.app_version
 )
+
+
+app.include_router(auth.router)
+app.include_router(simulation.router)
 
 
 @app.get("/health")
 def health_check():
     return {
         "status": "healthy",
-        "service": "OilTrace Backend"
+        "service": settings.app_name
     }
