@@ -9,9 +9,9 @@ export function Eyebrow({ children }) {
     </div>
   );
 }
-export function SectionHeading({ eyebrow, title, text }) {
+export function SectionHeading({ eyebrow, title, text, viewport }) {
   return (
-    <motion.div className="section-heading" {...reveal}>
+    <motion.div className="section-heading" {...reveal} viewport={viewport ?? reveal.viewport}>
       <Eyebrow>{eyebrow}</Eyebrow>
       <h2>{title}</h2>
       {text && <p>{text}</p>}

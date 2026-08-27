@@ -1,4 +1,3 @@
-import { Globe2, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Logo } from "../Common/Logo";
 
@@ -8,17 +7,7 @@ export function Resources() {
       <div className="footer-main">
         <div>
           <Logo dark />
-          <p>
-            AI-powered marine oil spill trajectory monitoring and simulation
-            platform. Developed for coastal guards and environmental protection
-            authorities.
-          </p>
-          <div className="socials">
-            <Globe2 />
-            <span>𝕏</span>
-            <Globe2 />
-            <Mail />
-          </div>
+          <p>AI powered oil spill monitoring and simulation for coastal authorities, port trusts and environmental response teams.</p>
         </div>
         <div>
           <b>PLATFORM</b>

@@ -68,11 +68,11 @@ export function Divider() {
     </div>
   );
 }
-export function Input({ label, placeholder, type = "text" }) {
+export function Input({ label, placeholder, type = "text", value, onChange }) {
   return (
     <label className="input-label">
       {label}
-      <input type={type} placeholder={placeholder} />
+      <input type={type} placeholder={placeholder} value={value} onChange={(event) => onChange?.(event.target.value)} />
     </label>
   );
 }
