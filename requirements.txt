@@ -1,0 +1,23 @@
+# OilTrace - Python dependencies
+#
+# Install PyTorch FIRST with a build that matches your hardware, then run
+# `pip install -r requirements.txt` for the rest. For CUDA 12.8, for example:
+#
+#     pip install torch --index-url https://download.pytorch.org/whl/cu128
+#
+# CPU-only machines work too: the notebooks fall back to CPU automatically.
+# See https://pytorch.org for the right command for your setup.
+#
+# Verified on Python 3.12 with torch 2.12.0+cu128, numpy 2.4.6, pandas 3.0.5,
+# matplotlib 3.11.1, pillow 12.3.0, tqdm 4.67.3.
+
+torch>=2.4
+numpy>=1.26
+pillow>=10.0
+matplotlib>=3.8
+pandas>=2.0
+tqdm>=4.66
+
+# To open the notebooks, use either JupyterLab (`pip install jupyterlab`) or the
+# VS Code Jupyter extension. Neither is imported by the code, so neither is
+# pinned here.
