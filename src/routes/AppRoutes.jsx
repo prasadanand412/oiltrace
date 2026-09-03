@@ -1,0 +1,42 @@
+import { Route, Routes, useLocation } from "react-router-dom";
+import { ForgotPasswordForm } from "../components/Authentication/ForgotPasswordForm";
+import { LandingPage } from "../components/Landing/LandingPage";
+import { LoginForm } from "../components/Authentication/LoginForm";
+import { SignupForm } from "../components/Authentication/SignupForm";
+import { Dashboard } from "../components/Dashboard/Dashboard";
+import { AISimulationPage } from "../components/Dashboard/pages/AISimulationPage";
+import { AlertsPage } from "../components/Dashboard/pages/AlertsPage";
+import { AnalyticsPage } from "../components/Dashboard/pages/AnalyticsPage";
+import { CoreFeaturesPage } from "../components/Dashboard/pages/CoreFeaturesPage";
+import { GISCommandMapPage } from "../components/Dashboard/pages/GISCommandMapPage";
+import { HistoricalArchivesPage } from "../components/Dashboard/pages/HistoricalArchivesPage";
+import { IncidentWorkflowPage } from "../components/Dashboard/pages/IncidentWorkflowPage";
+import { ProfilePage } from "../components/Dashboard/pages/ProfilePage";
+import { SatelliteRadarPage } from "../components/Dashboard/pages/SatelliteRadarPage";
+import { SensitiveZonesPage } from "../components/Dashboard/pages/SensitiveZonesPage";
+import { SettingsPage } from "../components/Dashboard/pages/SettingsPage";
+
+// Keep route definitions centralized so pages remain composable.
+export function AppRoutes() {
+  const location = useLocation();
+  return (
+    <Routes location={location} key={location.pathname}>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/signin" element={<LoginForm />} />
+      <Route path="/signup" element={<SignupForm />} />
+      <Route path="/reset" element={<ForgotPasswordForm />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/dashboard/core-features" element={<CoreFeaturesPage />} />
+      <Route path="/dashboard/ai-simulation" element={<AISimulationPage />} />
+      <Route path="/dashboard/gis-command-map" element={<GISCommandMapPage />} />
+      <Route path="/dashboard/incident-workflow" element={<IncidentWorkflowPage />} />
+      <Route path="/dashboard/satellite-radar" element={<SatelliteRadarPage />} />
+      <Route path="/dashboard/sensitive-zones" element={<SensitiveZonesPage />} />
+      <Route path="/dashboard/historical-archives" element={<HistoricalArchivesPage />} />
+      <Route path="/dashboard/analytics" element={<AnalyticsPage />} />
+      <Route path="/dashboard/alerts" element={<AlertsPage />} />
+      <Route path="/dashboard/settings" element={<SettingsPage />} />
+      <Route path="/dashboard/profile" element={<ProfilePage />} />
+    </Routes>
+  );
+}
