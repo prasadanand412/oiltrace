@@ -1,0 +1,34 @@
+{
+  "suspect_mmsi": "251765553",
+  "suspect_name": "MT KAVERI",
+  "suspect_vessel_type": "tanker",
+  "true_origin_lon": 51.5,
+  "true_origin_lat": 26.5,
+  "true_origin_time": "2026-08-26 12:00:00",
+  "num_vessels": 20,
+  "seed": 42,
+  "region_bounds": [
+    50.7,
+    26.1,
+    52.7,
+    27.3
+  ],
+  "ais_time_window": [
+    "2026-08-26 00:00:00",
+    "2026-08-27 00:00:00"
+  ],
+  "report_interval_minutes": 10.0,
+  "distractor_track_rerolls": 3,
+  "suspect_profile": {
+    "approach_course_deg": 251.1,
+    "escape_course_deg": 306.1,
+    "cruise_sog_knots": 11.0,
+    "discharge_sog_knots": 3.5,
+    "escape_sog_knots": 14.0,
+    "planted_speed_drop_knots": 7.5,
+    "planted_course_change_deg": 55.0,
+    "planted_ais_gap_minutes": 90.0,
+    "track_reports": 41
+  },
+  "note": "Synthetic AIS for the Stage 3 demo. Exactly one vessel (suspect_mmsi) was planted as the culprit; every other track is unrelated traffic. Not real AIS data - see README.md."
+}

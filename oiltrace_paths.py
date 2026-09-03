@@ -5,7 +5,7 @@ so the project runs unchanged no matter where the repository is cloned. Every
 path below is a plain pathlib.Path built from ROOT, the folder holding this file.
 
     import oiltrace_paths as paths
-    paths.MODEL_BEST        ->  <ROOT>/models/sar_unet_best.pt
+    paths.MODEL_BEST        ->  <ROOT>/ml/detection/checkpoints/sar_unet_best.pt
     paths.SENTINEL_TEST_IMG ->  <ROOT>/dataset/test/sentinel/image
 
 Run "python oiltrace_paths.py" to print every path and whether it exists.
@@ -18,11 +18,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 
-# --- Model weights (models/*.pt is tracked with Git LFS) --------------------
+# --- Model weights (checkpoints/*.pt tracked with Git LFS) ------------------
 
-MODELS_DIR = ROOT / "models"
+MODELS_DIR = ROOT / "ml" / "detection" / "checkpoints"
 MODEL_BEST = MODELS_DIR / "sar_unet_best.pt"
-MODEL_CHECKPOINT = MODELS_DIR / "sar_unet_checkpoint.pt"
 
 # --- Dataset ----------------------------------------------------------------
 # Defaults to <ROOT>/dataset. The dataset is not committed to git, so set
@@ -39,7 +38,7 @@ SENTINEL_TEST_LABEL = DATASET_DIR / "test" / "sentinel" / "label"
 
 # --- Outputs ----------------------------------------------------------------
 
-RESULTS_JSON = ROOT / "training_results.json"
+RESULTS_JSON = ROOT / "ml" / "results" / "training_results.json"
 
 # --- Self-check -------------------------------------------------------------
 

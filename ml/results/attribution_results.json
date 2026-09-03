@@ -1,0 +1,263 @@
+{
+  "stage": "3 - vessel attribution (AIS correlation)",
+  "project": "oiltrace / SpillTrace",
+  "problem_statement": "SIH26143 (NTRO)",
+  "method": "rule-based multi-factor scoring - not a trained model",
+  "entry_point": "attribution.rank_vessels()",
+  "scenario": {
+    "region": "Central Persian Gulf, north of Qatar (Stage 2 demo scenario)",
+    "estimated_origin_lon": 51.5,
+    "estimated_origin_lat": 26.5,
+    "estimated_origin_time": "2026-08-26 12:00:00",
+    "spill_window": [
+      "2026-08-26 09:00:00",
+      "2026-08-26 15:00:00"
+    ],
+    "search_radius_km": 50.0,
+    "time_buffer_hours": 6.0
+  },
+  "data": {
+    "source": "synthetic (attribution.generate_synthetic_ais_data)",
+    "is_real_ais": false,
+    "file": "data/synthetic_ais_persian_gulf.csv",
+    "reports": 2787,
+    "vessels": 20,
+    "report_interval_minutes": 10.0,
+    "real_data_path_when_available": "https://marinecadastre.gov/accessais"
+  },
+  "scoring_weights": {
+    "proximity": 0.35,
+    "trajectory": 0.3,
+    "anomaly": 0.25,
+    "vessel_type": 0.1
+  },
+  "anomaly_sub_weights": {
+    "speed_drop": 0.35,
+    "course_change": 0.25,
+    "ais_gap": 0.4
+  },
+  "demo_run": {
+    "candidates_after_filter": 13,
+    "planted_culprit": "MT KAVERI",
+    "planted_culprit_mmsi": "251765553",
+    "culprit_rank": 1,
+    "culprit_score": 0.9406,
+    "culprit_sub_scores": {
+      "proximity": 0.9543,
+      "trajectory": 0.9986,
+      "anomaly": 0.8281,
+      "vessel_type": 1.0
+    },
+    "culprit_closest_approach_km": 3.241,
+    "runner_up": "MS MEGHNA",
+    "runner_up_score": 0.6461,
+    "margin": 0.2945
+  },
+  "validation": {
+    "randomised_scenarios": 25,
+    "top1_accuracy": 1.0,
+    "mean_margin_over_runner_up": 0.2662,
+    "min_margin_over_runner_up": 0.1939,
+    "origin_error_tolerance": [
+      {
+        "origin_error_km": 0,
+        "culprit_rank": 1,
+        "score": 0.941,
+        "proximity": 0.954,
+        "trajectory": 0.999,
+        "candidates": 13
+      },
+      {
+        "origin_error_km": 2,
+        "culprit_rank": 1,
+        "score": 0.951,
+        "proximity": 0.986,
+        "trajectory": 0.997,
+        "candidates": 13
+      },
+      {
+        "origin_error_km": 5,
+        "culprit_rank": 1,
+        "score": 0.943,
+        "proximity": 0.975,
+        "trajectory": 0.98,
+        "candidates": 13
+      },
+      {
+        "origin_error_km": 10,
+        "culprit_rank": 1,
+        "score": 0.917,
+        "proximity": 0.929,
+        "trajectory": 0.949,
+        "candidates": 13
+      },
+      {
+        "origin_error_km": 20,
+        "culprit_rank": 1,
+        "score": 0.865,
+        "proximity": 0.839,
+        "trajectory": 0.879,
+        "candidates": 13
+      },
+      {
+        "origin_error_km": 40,
+        "culprit_rank": 2,
+        "score": 0.734,
+        "proximity": 0.661,
+        "trajectory": 0.653,
+        "candidates": 15
+      }
+    ],
+    "time_window_shift_tolerance": [
+      {
+        "window_shift_h": -9,
+        "culprit_rank": 1,
+        "score": 0.736,
+        "anomaly": 0.009,
+        "reports_in_scan": 7
+      },
+      {
+        "window_shift_h": -6,
+        "culprit_rank": 1,
+        "score": 0.818,
+        "anomaly": 0.339,
+        "reports_in_scan": 22
+      },
+      {
+        "window_shift_h": -3,
+        "culprit_rank": 1,
+        "score": 0.941,
+        "anomaly": 0.828,
+        "reports_in_scan": 35
+      },
+      {
+        "window_shift_h": 0,
+        "culprit_rank": 1,
+        "score": 0.941,
+        "anomaly": 0.828,
+        "reports_in_scan": 41
+      },
+      {
+        "window_shift_h": 3,
+        "culprit_rank": 1,
+        "score": 0.941,
+        "anomaly": 0.828,
+        "reports_in_scan": 35
+      },
+      {
+        "window_shift_h": 6,
+        "culprit_rank": 1,
+        "score": 0.792,
+        "anomaly": 0.233,
+        "reports_in_scan": 19
+      },
+      {
+        "window_shift_h": 9,
+        "culprit_rank": 9,
+        "score": 0.412,
+        "anomaly": 0.005,
+        "reports_in_scan": 7
+      }
+    ],
+    "factor_ablation": [
+      {
+        "weights": "all four (default)",
+        "culprit_rank": 1,
+        "culprit_score": 0.941,
+        "runner_up": 0.646,
+        "margin": 0.294
+      },
+      {
+        "weights": "proximity only",
+        "culprit_rank": 1,
+        "culprit_score": 0.954,
+        "runner_up": 0.845,
+        "margin": 0.11
+      },
+      {
+        "weights": "trajectory only",
+        "culprit_rank": 1,
+        "culprit_score": 0.999,
+        "runner_up": 0.9,
+        "margin": 0.099
+      },
+      {
+        "weights": "anomaly only",
+        "culprit_rank": 1,
+        "culprit_score": 0.828,
+        "runner_up": 0.298,
+        "margin": 0.53
+      },
+      {
+        "weights": "vessel type only",
+        "culprit_rank": 1,
+        "culprit_score": 1.0,
+        "runner_up": 1.0,
+        "margin": 0.0
+      },
+      {
+        "weights": "no anomaly term",
+        "culprit_rank": 1,
+        "culprit_score": 0.979,
+        "runner_up": 0.753,
+        "margin": 0.226
+      },
+      {
+        "weights": "no vessel type",
+        "culprit_rank": 1,
+        "culprit_score": 0.934,
+        "runner_up": 0.694,
+        "margin": 0.239
+      }
+    ],
+    "missing_column_degradation": [
+      {
+        "AIS columns available": "full schema",
+        "culprit_rank": 1,
+        "score": 0.941,
+        "traj": 0.999,
+        "anom": 0.828,
+        "course from": "COG"
+      },
+      {
+        "AIS columns available": "minimum viable (no COG/type)",
+        "culprit_rank": 1,
+        "score": 0.88,
+        "traj": 1.0,
+        "anom": 0.824,
+        "course from": "derived from track"
+      },
+      {
+        "AIS columns available": "no SOG (no speed anomaly)",
+        "culprit_rank": 1,
+        "score": 0.859,
+        "traj": 0.999,
+        "anom": 0.5,
+        "course from": "COG"
+      },
+      {
+        "AIS columns available": "no VesselType (no prior)",
+        "culprit_rank": 1,
+        "score": 0.881,
+        "traj": 0.999,
+        "anom": 0.828,
+        "course from": "COG"
+      },
+      {
+        "AIS columns available": "positions only",
+        "culprit_rank": 1,
+        "score": 0.798,
+        "traj": 1.0,
+        "anom": 0.496,
+        "course from": "derived from track"
+      }
+    ]
+  },
+  "limitations": [
+    "AIS data here is synthetic; the planted culprit makes the scoring testable but does not prove accuracy on real traffic.",
+    "Attribution is probabilistic - the output ranks suspects to investigate and is not an identification.",
+    "Vessels can switch off AIS entirely; a vessel with no reports cannot be ranked at all.",
+    "Accuracy is bounded by Stage 2's estimate: at 40 km of origin error the culprit's score falls from 0.94 to 0.74 and it slips to rank 2, and a window slid 9 h late - past the discharge entirely - drops it to rank 9.",
+    "AIS gap thresholds assume a roughly 10-minute reporting cadence and must be retuned for feeds that report less often."
+  ]
+}

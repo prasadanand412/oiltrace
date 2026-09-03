@@ -1,0 +1,14 @@
+{
+  "detection_point": [
+    51.5,
+    26.5
+  ],
+  "detection_time": "2026-08-27T12:00:00",
+  "estimated_origin_lon": 51.54772186279297,
+  "estimated_origin_lat": 26.394155502319336,
+  "estimated_origin_time": "2026-08-26 12:00:00",
+  "origin_window_start": "2026-08-26 09:00:00",
+  "origin_window_end": "2026-08-26 15:00:00",
+  "stranded_early": false,
+  "known_limitations": "Coordinate extraction from real satellite imagery not yet implemented (demo uses manually-specified coordinates); accuracy bounded by wind/current data resolution; near-real-time current data only covers a rolling recent window; demo uses a manually-specified detection time (not derived from the SAR image itself, which has no embedded timestamp in this dataset) to demonstrate Stage 2's use of real, current environmental data."
+}

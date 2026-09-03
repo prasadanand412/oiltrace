@@ -1,0 +1,569 @@
+{
+  "detection": {
+    "mask": {
+      "mask_png_base64": "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAAAAAB5Gfe6AAAEFklEQVR4nO2d23LbOBAFe07h/3+ZW7nubmzFEgkkHLT7yZUyJzytIQ2BkFBM4aArQU6QE+RkTpmiK0FOkLdAkBsIcgNBTpC3QJAbCHIDQW4gyA0EuYEgNxDkBoKcICfIr4EgJ8hbIMgJcoL8GsiKop2eEwU5QU7kVwCR5yfy/JQ7PpMFtIvPHAENc88ScNCdUqfnioAt4nNawCbxOTsO2CY/kecn8vx8vhvE3QB8dgDuBuCzA5AT5AQ5QU6QE+QEOUFO9n72+zFBTpC3QJAbCHIDQW6gTh+5ybRAXTh2CwV16egNFNTVAt0d1IwinSXUpDptHdS8Uj0dZF6pnmODmlqtYRPU9IrNJNSKop0c1JqyR0sBRx3znHRRUEe9c8IiB/XlLL+98v//dyQO6pAPEbP6xO8+PBr83sDdz/8y+SDh9Ua4ucJ6MmTtehfIk793HO/9uAF17SV6pjHu7asun2J9Ob7EAr5TTQWMWYW+jijpR2a+RB1vjzW5Q982wc2l5Obnt5xicQvcXXB63rrmEeQEOVlc/2gg4MBMoNR3waxt0/t3V5CTpdXv3wAsvQke8g44aEB6nGaDCZE3NBEbeX4ePhs8W69XfD7HAUFOkDNWFD3EHXB0mxyvVme7gCAnyAlygpzMKNJ5UrGOKeEP60Co6M5wx+fSPWCH/Iwp6Q+XgGIjxlO/tXw97Y0F1IclOsfnkYDnu7x3fN4IePH67h6fXwRsdXt7WUC9fvSxi4A6d/CxyTrBwpufbT8J8iylTs9ZAdvE55SAjeLzuoCt0iMc+XkH/ZcEHGxLmcM/NSe4eX7KHP4DAYb4PBTgSM/De4AmP+WOz3sCTPF5K8AVn18F2OKzzSO+KX8FDoSUOj3/doA1P5HnJ/L8fK4TxN0ALP7s8P0JcoKcyK8A9B1Q7tefWvfZ4SZvhIKXr28EvR3w/X1wkPJjHiA4+TkPMjDyn4nAAe550AHuefAB7ucgAxHvPQccSHj0GHyg4PEyiIGA3y2DGWzLcwvgBpvy7ALIwZY8v/4z7MgLC4DDhryyADrsx0sLwIOcsB0lF1C4BRRyAcgFlF0AcgFlF4BcQNkFnCDICXKCnID7o/BBTpAT9qHsAk4R5AQ5QU6QE3B/JVKQE3ah7AJOEuQEOWETyi7gLAPcX4wZ5AT5N6OGDbjyfdBBTuhP2QUgF1ByAeUeCNXVAqE11zdEGDRmxn4Qg7bM2Q5j0JRZu4EMWjJvM5TQkYmbwYSGzNwMJ/Rj6mZAoR1zN0Ma9GL6VlCDTizYCWvQhyUbgQ26sGgftNCEVfvAhR4s2wcvtGDdPoCDBqzcBjHICfen5AIKuYC1BDmDm7N6I9wgJ9ybsgtALqDkAgq3gEIuALmAkguoP/K/3FjAnyF/+wT+Nv8A8Fl7H2FDOooAAAAASUVORK5CYII=",
+      "shape": [
+        256,
+        256
+      ]
+    },
+    "oil_pixel_count": 52713,
+    "oil_area_fraction": 0.8043365478515625
+  },
+  "drift_trace": {
+    "estimated_origin_lon": 51.54772186279297,
+    "estimated_origin_lat": 26.394155502319336,
+    "estimated_origin_time": "2026-08-26T12:00:00",
+    "origin_window_start": "2026-08-26T09:00:00",
+    "origin_window_end": "2026-08-26T15:00:00",
+    "stranded_early": false
+  },
+  "attribution": [
+    {
+      "MMSI": "251765553",
+      "VesselName": "MT KAVERI",
+      "combined_score": 0.8279,
+      "proximity_score": 0.7565,
+      "trajectory_score": 0.8535,
+      "anomaly_score": 0.8281,
+      "vessel_type_score": 1.0,
+      "vessel_type": "tanker",
+      "vessel_type_raw": "tanker",
+      "closest_distance_km": 12.931,
+      "closest_approach_time": "2026-08-26T11:30:00",
+      "n_positions": 41,
+      "first_report_time": "2026-08-26T08:00:00",
+      "last_report_time": "2026-08-26T16:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 13.18,
+        "alignment_distance_km": 54.827,
+        "alignment_time": "2026-08-26T08:40:00",
+        "approach_reports_considered": 19
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 7.5,
+        "speed_drop_score": 0.9375,
+        "course_change_deg": 56.0,
+        "course_change_score": 0.9333,
+        "max_ais_gap_minutes": 90.0,
+        "ais_gap_score": 0.6667,
+        "reports_in_scan_window": 41
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 1
+    },
+    {
+      "MMSI": "327121000",
+      "VesselName": "MS MEGHNA",
+      "combined_score": 0.7285,
+      "proximity_score": 0.973,
+      "trajectory_score": 0.9816,
+      "anomaly_score": 0.2938,
+      "vessel_type_score": 0.2,
+      "vessel_type": "passenger",
+      "vessel_type_raw": "passenger",
+      "closest_distance_km": 2.323,
+      "closest_approach_time": "2026-08-26T05:30:00",
+      "n_positions": 106,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 1.66,
+        "alignment_distance_km": 51.392,
+        "alignment_time": "2026-08-26T04:00:00",
+        "approach_reports_considered": 11
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 1.0,
+        "speed_drop_score": 0.125,
+        "course_change_deg": 179.1,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 2
+    },
+    {
+      "MMSI": "210875340",
+      "VesselName": "MS SAGAR",
+      "combined_score": 0.5527,
+      "proximity_score": 0.6275,
+      "trajectory_score": 0.7951,
+      "anomaly_score": 0.2981,
+      "vessel_type_score": 0.2,
+      "vessel_type": "passenger",
+      "vessel_type_raw": "passenger",
+      "closest_distance_km": 19.254,
+      "closest_approach_time": "2026-08-26T17:20:00",
+      "n_positions": 106,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 18.44,
+        "alignment_distance_km": 55.48,
+        "alignment_time": "2026-08-26T15:30:00",
+        "approach_reports_considered": 55
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 1.1,
+        "speed_drop_score": 0.1375,
+        "course_change_deg": 178.9,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 3
+    },
+    {
+      "MMSI": "628663284",
+      "VesselName": "MV SAGAR",
+      "combined_score": 0.5374,
+      "proximity_score": 0.4913,
+      "trajectory_score": 0.7066,
+      "anomaly_score": 0.2938,
+      "vessel_type_score": 0.8,
+      "vessel_type": "cargo",
+      "vessel_type_raw": "cargo",
+      "closest_distance_km": 25.928,
+      "closest_approach_time": "2026-08-26T07:50:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 26.4,
+        "alignment_distance_km": 59.186,
+        "alignment_time": "2026-08-26T05:40:00",
+        "approach_reports_considered": 14
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 1.0,
+        "speed_drop_score": 0.125,
+        "course_change_deg": 179.6,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 4
+    },
+    {
+      "MMSI": "745618834",
+      "VesselName": "MS KONKAN",
+      "combined_score": 0.4799,
+      "proximity_score": 0.5023,
+      "trajectory_score": 0.7096,
+      "anomaly_score": 0.285,
+      "vessel_type_score": 0.2,
+      "vessel_type": "passenger",
+      "vessel_type_raw": "passenger",
+      "closest_distance_km": 25.39,
+      "closest_approach_time": "2026-08-26T19:10:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 26.14,
+        "alignment_distance_km": 58.456,
+        "alignment_time": "2026-08-26T14:50:00",
+        "approach_reports_considered": 62
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 0.8,
+        "speed_drop_score": 0.1,
+        "course_change_deg": 179.7,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 5
+    },
+    {
+      "MMSI": "356553108",
+      "VesselName": "MT MERIDIAN",
+      "combined_score": 0.4529,
+      "proximity_score": 0.9805,
+      "trajectory_score": 0.0,
+      "anomaly_score": 0.0388,
+      "vessel_type_score": 1.0,
+      "vessel_type": "tanker",
+      "vessel_type_raw": "tanker",
+      "closest_distance_km": 1.954,
+      "closest_approach_time": "2026-08-26T03:00:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 157.54,
+        "alignment_distance_km": 1.954,
+        "alignment_time": "2026-08-26T03:00:00",
+        "approach_reports_considered": 1
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 0.6,
+        "speed_drop_score": 0.075,
+        "course_change_deg": 3.0,
+        "course_change_score": 0.05,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 6
+    },
+    {
+      "MMSI": "313955014",
+      "VesselName": "FV AURORA",
+      "combined_score": 0.4314,
+      "proximity_score": 0.3799,
+      "trajectory_score": 0.6704,
+      "anomaly_score": 0.2894,
+      "vessel_type_score": 0.25,
+      "vessel_type": "fishing",
+      "vessel_type_raw": "fishing",
+      "closest_distance_km": 31.384,
+      "closest_approach_time": "2026-08-26T11:40:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 29.66,
+        "alignment_distance_km": 59.62,
+        "alignment_time": "2026-08-26T03:10:00",
+        "approach_reports_considered": 52
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 0.9,
+        "speed_drop_score": 0.1125,
+        "course_change_deg": 178.2,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 7
+    },
+    {
+      "MMSI": "334200422",
+      "VesselName": "MT TRIDENT",
+      "combined_score": 0.4225,
+      "proximity_score": 0.2441,
+      "trajectory_score": 0.5529,
+      "anomaly_score": 0.285,
+      "vessel_type_score": 1.0,
+      "vessel_type": "tanker",
+      "vessel_type_raw": "tanker",
+      "closest_distance_km": 38.039,
+      "closest_approach_time": "2026-08-26T08:40:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 40.24,
+        "alignment_distance_km": 59.508,
+        "alignment_time": "2026-08-26T06:40:00",
+        "approach_reports_considered": 13
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 0.8,
+        "speed_drop_score": 0.1,
+        "course_change_deg": 179.0,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 8
+    },
+    {
+      "MMSI": "722360574",
+      "VesselName": "MT HORIZON",
+      "combined_score": 0.4174,
+      "proximity_score": 0.231,
+      "trajectory_score": 0.5547,
+      "anomaly_score": 0.2806,
+      "vessel_type_score": 1.0,
+      "vessel_type": "tanker",
+      "vessel_type_raw": "tanker",
+      "closest_distance_km": 38.683,
+      "closest_approach_time": "2026-08-26T08:40:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 40.08,
+        "alignment_distance_km": 58.341,
+        "alignment_time": "2026-08-26T07:00:00",
+        "approach_reports_considered": 18
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 0.7,
+        "speed_drop_score": 0.0875,
+        "course_change_deg": 179.9,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 9
+    },
+    {
+      "MMSI": "517259617",
+      "VesselName": "MV ZUARI",
+      "combined_score": 0.4013,
+      "proximity_score": 0.2322,
+      "trajectory_score": 0.5627,
+      "anomaly_score": 0.285,
+      "vessel_type_score": 0.8,
+      "vessel_type": "cargo",
+      "vessel_type_raw": "cargo",
+      "closest_distance_km": 38.624,
+      "closest_approach_time": "2026-08-26T17:30:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 39.36,
+        "alignment_distance_km": 57.37,
+        "alignment_time": "2026-08-26T08:50:00",
+        "approach_reports_considered": 34
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 0.8,
+        "speed_drop_score": 0.1,
+        "course_change_deg": 179.6,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 10
+    },
+    {
+      "MMSI": "290291614",
+      "VesselName": "FV KAVERI",
+      "combined_score": 0.3927,
+      "proximity_score": 0.3954,
+      "trajectory_score": 0.5196,
+      "anomaly_score": 0.2938,
+      "vessel_type_score": 0.25,
+      "vessel_type": "fishing",
+      "vessel_type_raw": "fishing",
+      "closest_distance_km": 30.624,
+      "closest_approach_time": "2026-08-26T18:00:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 43.24,
+        "alignment_distance_km": 59.912,
+        "alignment_time": "2026-08-26T12:20:00",
+        "approach_reports_considered": 41
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 1.0,
+        "speed_drop_score": 0.125,
+        "course_change_deg": 179.2,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 11
+    },
+    {
+      "MMSI": "602438413",
+      "VesselName": "MS ZUARI",
+      "combined_score": 0.2805,
+      "proximity_score": 0.1337,
+      "trajectory_score": 0.4784,
+      "anomaly_score": 0.2806,
+      "vessel_type_score": 0.2,
+      "vessel_type": "passenger",
+      "vessel_type_raw": "passenger",
+      "closest_distance_km": 43.447,
+      "closest_approach_time": "2026-08-26T17:10:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 46.94,
+        "alignment_distance_km": 59.681,
+        "alignment_time": "2026-08-26T16:10:00",
+        "approach_reports_considered": 45
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 0.7,
+        "speed_drop_score": 0.0875,
+        "course_change_deg": 178.1,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 12
+    },
+    {
+      "MMSI": "301034922",
+      "VesselName": "FV CASPIAN",
+      "combined_score": 0.1521,
+      "proximity_score": 0.1563,
+      "trajectory_score": 0.0,
+      "anomaly_score": 0.2894,
+      "vessel_type_score": 0.25,
+      "vessel_type": "fishing",
+      "vessel_type_raw": "fishing",
+      "closest_distance_km": 42.341,
+      "closest_approach_time": "2026-08-26T03:00:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 142.58,
+        "alignment_distance_km": 42.341,
+        "alignment_time": "2026-08-26T03:00:00",
+        "approach_reports_considered": 1
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 0.9,
+        "speed_drop_score": 0.1125,
+        "course_change_deg": 179.1,
+        "course_change_score": 1.0,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 13
+    },
+    {
+      "MMSI": "466206671",
+      "VesselName": "FV ARABIAN",
+      "combined_score": 0.0849,
+      "proximity_score": 0.1412,
+      "trajectory_score": 0.0,
+      "anomaly_score": 0.0419,
+      "vessel_type_score": 0.25,
+      "vessel_type": "fishing",
+      "vessel_type_raw": "fishing",
+      "closest_distance_km": 43.081,
+      "closest_approach_time": "2026-08-26T03:00:00",
+      "n_positions": 109,
+      "first_report_time": "2026-08-26T03:00:00",
+      "last_report_time": "2026-08-26T21:00:00",
+      "course_source": "COG",
+      "trajectory_detail": {
+        "best_alignment_deg": 105.11,
+        "alignment_distance_km": 43.081,
+        "alignment_time": "2026-08-26T03:00:00",
+        "approach_reports_considered": 1
+      },
+      "anomaly_detail": {
+        "speed_drop_knots": 0.7,
+        "speed_drop_score": 0.0875,
+        "course_change_deg": 2.7,
+        "course_change_score": 0.045,
+        "max_ais_gap_minutes": 10.0,
+        "ais_gap_score": 0.0,
+        "reports_in_scan_window": 73
+      },
+      "weights_used": {
+        "proximity": 0.35,
+        "trajectory": 0.3,
+        "anomaly": 0.25,
+        "vessel_type": 0.1
+      },
+      "rank": 14
+    }
+  ]
+}

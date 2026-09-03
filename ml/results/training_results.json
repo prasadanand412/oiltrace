@@ -1,0 +1,9 @@
+{
+  "model": "U-Net (Sentinel-1 SAR segmentation)",
+  "dataset": "Deep-SAR SOS Oil Spill Segmentation (Kaggle, Sentinel-1 subset)",
+  "total_epochs_trained": 100,
+  "average_test_iou": 0.6630316632314667,
+  "num_test_images": 839,
+  "trained_on": "First 10 epochs on local RTX 5060 laptop GPU, remaining 90 epochs on a rented RTX 5090",
+  "known_limitations": "Some false positives observed on look-alike/no-spill test cases (a documented challenge in SAR oil-spill detection research)"
+}
