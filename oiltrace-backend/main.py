@@ -7,9 +7,13 @@ from auth import (
     authenticate_user,
     create_access_token,
     get_current_user,
+    get_current_admin,
     register_user,
+    get_all_users,
+    logout_user,
     ACCESS_TOKEN_EXPIRE_MINUTES,
 )
+
 from schemas import (
     RegisterRequest,
     TokenResponse,
@@ -19,9 +23,11 @@ from schemas import (
     PredictionRequest,
     PredictionResponse,
 )
+
 from services.environment import get_environment
 from services.simulation import simulate_spill
 from services.prediction import predict_risk
+
 
 app = FastAPI(
     title="OilTrace Backend API",
@@ -29,9 +35,13 @@ app = FastAPI(
     description="Standalone backend MVP for oil-spill tracking and risk estimation.",
 )
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Restrict this when the frontend domain is known.
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,50 +60,133 @@ def root():
 
 @app.get("/health", tags=["System"])
 def health():
-    return {"status": "healthy"}
+    return {
+        "status": "healthy"
+    }
 
 
 @app.post("/auth/register", tags=["Authentication"])
 def register(payload: RegisterRequest):
     try:
-        user = register_user(payload.username, payload.password)
-        return {"message": "User registered", "username": user["username"]}
+        user = register_user(
+            payload.username,
+            payload.password,
+        )
+
+        return {
+            "message": "User registered",
+            "username": user["username"],
+        }
+
     except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc))
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc),
+        )
 
 
-@app.post("/auth/login", response_model=TokenResponse, tags=["Authentication"])
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(form_data.username, form_data.password)
+@app.post(
+    "/auth/login",
+    response_model=TokenResponse,
+    tags=["Authentication"],
+)
+def login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+):
+    user = authenticate_user(
+        form_data.username,
+        form_data.password,
+    )
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid username or password",
-            headers={"WWW-Authenticate": "Bearer"},
+            headers={
+                "WWW-Authenticate": "Bearer"
+            },
         )
 
     token = create_access_token(
         {"sub": user["username"]},
-        expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+        expires_delta=timedelta(
+            minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+        ),
     )
-    return {"access_token": token, "token_type": "bearer"}
+
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+    }
 
 
-@app.get("/me", tags=["Authentication"])
-def me(current_user=Depends(get_current_user)):
-    return {"username": current_user["username"]}
+@app.post(
+    "/auth/logout",
+    tags=["Authentication"],
+)
+def logout(
+    current_user=Depends(get_current_user),
+):
+    success = logout_user(
+        current_user["username"]
+    )
+
+    if not success:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found",
+        )
+
+    return {
+        "message": "User logged out successfully",
+        "username": current_user["username"],
+    }
 
 
-@app.get("/environment", response_model=EnvironmentResponse, tags=["Environment"])
+@app.get(
+    "/me",
+    tags=["Authentication"],
+)
+def me(
+    current_user=Depends(get_current_user),
+):
+    return {
+        "username": current_user["username"],
+        "is_admin": current_user["is_admin"],
+    }
+
+
+@app.get(
+    "/admin/users",
+    tags=["Admin"],
+)
+def admin_users(
+    current_admin=Depends(get_current_admin),
+):
+    return get_all_users()
+
+
+@app.get(
+    "/environment",
+    response_model=EnvironmentResponse,
+    tags=["Environment"],
+)
 async def environment(
     latitude: float,
     longitude: float,
     current_user=Depends(get_current_user),
 ):
-    return await get_environment(latitude, longitude)
+    return await get_environment(
+        latitude,
+        longitude,
+    )
 
 
-@app.post("/simulate", response_model=SimulationResponse, tags=["Simulation"])
+@app.post(
+    "/simulate",
+    response_model=SimulationResponse,
+    tags=["Simulation"],
+)
 def simulate(
     payload: SimulationRequest,
     current_user=Depends(get_current_user),
@@ -101,7 +194,11 @@ def simulate(
     return simulate_spill(payload)
 
 
-@app.post("/predict", response_model=PredictionResponse, tags=["Prediction"])
+@app.post(
+    "/predict",
+    response_model=PredictionResponse,
+    tags=["Prediction"],
+)
 def predict(
     payload: PredictionRequest,
     current_user=Depends(get_current_user),

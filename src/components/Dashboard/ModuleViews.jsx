@@ -16,6 +16,7 @@ import {
   Upload,
   UserRound,
 } from "lucide-react";
+import { UserManagementPage } from "./pages/UserManagementPage";
 
 const fade = {
   initial: { opacity: 0, y: 12 },
@@ -36,6 +37,7 @@ export function ModuleView({ module }) {
     "Historical Archives": <ArchivesView />,
     "Analytics & Reports": <AnalyticsView />,
     "Alerts & Notifications": <AlertsView />,
+    "User Management": <UserManagementPage />,
     Settings: <SettingsView />,
     Profile: <ProfileView />,
   };

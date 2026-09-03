@@ -128,6 +128,15 @@ export function AppRoutes() {
       />
 
       <Route
+        path="/dashboard/user-management"
+        element={
+          <ProtectedRoute>
+            <Dashboard module="User Management" />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/dashboard/settings"
         element={
           <ProtectedRoute>
