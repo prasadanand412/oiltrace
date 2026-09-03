@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { ForgotPasswordForm } from "../components/Authentication/ForgotPasswordForm";
 import { LandingPage } from "../components/Landing/LandingPage";
 import { LoginForm } from "../components/Authentication/LoginForm";
@@ -16,27 +16,134 @@ import { SatelliteRadarPage } from "../components/Dashboard/pages/SatelliteRadar
 import { SensitiveZonesPage } from "../components/Dashboard/pages/SensitiveZonesPage";
 import { SettingsPage } from "../components/Dashboard/pages/SettingsPage";
 
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    return <Navigate to="/signin" replace />;
+  }
+
+  return children;
+}
+
 // Keep route definitions centralized so pages remain composable.
 export function AppRoutes() {
   const location = useLocation();
+
   return (
     <Routes location={location} key={location.pathname}>
       <Route path="/" element={<LandingPage />} />
       <Route path="/signin" element={<LoginForm />} />
       <Route path="/signup" element={<SignupForm />} />
       <Route path="/reset" element={<ForgotPasswordForm />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/dashboard/core-features" element={<CoreFeaturesPage />} />
-      <Route path="/dashboard/ai-simulation" element={<AISimulationPage />} />
-      <Route path="/dashboard/gis-command-map" element={<GISCommandMapPage />} />
-      <Route path="/dashboard/incident-workflow" element={<IncidentWorkflowPage />} />
-      <Route path="/dashboard/satellite-radar" element={<SatelliteRadarPage />} />
-      <Route path="/dashboard/sensitive-zones" element={<SensitiveZonesPage />} />
-      <Route path="/dashboard/historical-archives" element={<HistoricalArchivesPage />} />
-      <Route path="/dashboard/analytics" element={<AnalyticsPage />} />
-      <Route path="/dashboard/alerts" element={<AlertsPage />} />
-      <Route path="/dashboard/settings" element={<SettingsPage />} />
-      <Route path="/dashboard/profile" element={<ProfilePage />} />
+
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/core-features"
+        element={
+          <ProtectedRoute>
+            <CoreFeaturesPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/ai-simulation"
+        element={
+          <ProtectedRoute>
+            <AISimulationPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/gis-command-map"
+        element={
+          <ProtectedRoute>
+            <GISCommandMapPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/incident-workflow"
+        element={
+          <ProtectedRoute>
+            <IncidentWorkflowPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/satellite-radar"
+        element={
+          <ProtectedRoute>
+            <SatelliteRadarPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/sensitive-zones"
+        element={
+          <ProtectedRoute>
+            <SensitiveZonesPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/historical-archives"
+        element={
+          <ProtectedRoute>
+            <HistoricalArchivesPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/analytics"
+        element={
+          <ProtectedRoute>
+            <AnalyticsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/alerts"
+        element={
+          <ProtectedRoute>
+            <AlertsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/settings"
+        element={
+          <ProtectedRoute>
+            <SettingsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
