@@ -657,7 +657,7 @@ function ProfileView() {
 
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/me",
+          "http://127.0.0.1:8001/me",
           {
             headers: {
               Authorization: `Bearer ${token}`,

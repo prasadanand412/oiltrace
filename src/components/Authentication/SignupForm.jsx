@@ -37,7 +37,9 @@ export function SignupForm() {
     }
 
     if (!consent) {
-      setError("Please confirm that you are authorised to access the platform.");
+      setError(
+        "Please confirm that you are authorised to access the platform."
+      );
       return;
     }
 
@@ -46,7 +48,7 @@ export function SignupForm() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/auth/register",
+        "http://localhost:8001/auth/register",
         {
           method: "POST",
           headers: {

@@ -1,6 +1,9 @@
 fastapi
 uvicorn[standard]
-httpx
-PyJWT
 python-multipart
+passlib[bcrypt]
+bcrypt
+python-jose[cryptography]
 pydantic
+PyJWT
+httpx
