@@ -6,8 +6,10 @@ import {
   ChevronRight,
   Download,
   Filter,
+  LoaderCircle,
   Layers,
   Play,
+  Radar,
   RotateCcw,
   Search,
   SlidersHorizontal,
@@ -307,68 +309,147 @@ function WorkflowView() {
 }
 
 function SarView() {
-  const [compare, setCompare] = useState(50);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [status, setStatus] = useState("idle");
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
+  async function chooseImage(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!['image/png', 'image/jpeg', 'image/tiff'].includes(file.type)) {
+      setError("Choose a PNG, JPEG, or TIFF SAR image.");
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setError("The image must be 10 MB or smaller.");
+      return;
+    }
+
+    const imageUrl = URL.createObjectURL(file);
+    const dimensions = await new Promise((resolve) => {
+      const image = new Image();
+      image.onload = () => resolve([image.width, image.height]);
+      image.onerror = () => resolve(null);
+      image.src = imageUrl;
+    });
+
+    if (!dimensions || dimensions[0] !== 256 || dimensions[1] !== 256) {
+      URL.revokeObjectURL(imageUrl);
+      setError("Stage 1 requires a 256 × 256 Sentinel-1 SAR tile.");
+      return;
+    }
+
+    setSelectedFile(file);
+    setPreviewUrl(imageUrl);
+    setResult(null);
+    setError("");
+    setStatus("ready");
+  }
+
+  function clearImage() {
+    setSelectedFile(null);
+    setPreviewUrl("");
+    setResult(null);
+    setError("");
+    setStatus("idle");
+  }
+
+  async function analyzeImage() {
+    if (!selectedFile || status === "processing") return;
+
+    setStatus("processing");
+    setError("");
+    try {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL || "http://localhost:8001"}/sar/analyze`,
+        {
+          method: "POST",
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.detail || "The SAR image could not be analyzed.");
+      }
+      setResult(data.result);
+      setStatus("completed");
+    } catch (requestError) {
+      setStatus("ready");
+      setError(requestError.message || "Unable to reach the analysis service.");
+    }
+  }
 
   return (
     <>
       <ViewHeader
         eyebrow="REMOTE SENSING / SAR"
-        title="Satellite radar review"
-        text="Compare detections across passes and validate the latest slick estimate."
+        title="SAR oil-spill detection"
+        text="Submit a calibrated Sentinel-1 tile to the Stage 1 detection model."
         action={
-          <button className="module-action">
-            <Download size={16} /> Export scene
+          <button
+            className="module-action"
+            onClick={analyzeImage}
+            disabled={!selectedFile || status === "processing"}
+          >
+            {status === "processing" ? <LoaderCircle className="spin" size={16} /> : <Play size={16} />}
+            {status === "processing" ? "Analyzing scene" : "Analyze image"}
           </button>
         }
       />
 
-      <div className="sar-layout">
-        <div className="sar-viewer">
-          <div
-            className="sar-before"
-            style={{ width: `${compare}%` }}
-          />
-
-          <div className="sar-after" />
-
-          <div
-            className="sar-divider"
-            style={{ left: `${compare}%` }}
-          >
-            <span />
-          </div>
-
+      <div className="sar-analysis-layout">
+        <section className="sar-upload-panel">
           <input
-            className="sar-slider"
-            type="range"
-            min="10"
-            max="90"
-            value={compare}
-            onChange={(event) => setCompare(event.target.value)}
-            aria-label="Compare raw and detected satellite scene"
+            id="sar-image-input"
+            className="sar-file-input"
+            type="file"
+            accept=".png,.jpg,.jpeg,.tif,.tiff,image/png,image/jpeg,image/tiff"
+            onChange={chooseImage}
           />
-
-          <label>
-            RAW PASS <b>DETECTED EXTENT</b>
-          </label>
-        </div>
-
-        <div className="sar-meta">
-          <small>SCENE METADATA</small>
-          <h2>Sentinel-1A</h2>
-
-          {[
-            ["Pass time", "25 Aug 2026 · 06:02 UTC"],
-            ["Orbit", "Ascending · 128 km"],
-            ["Resolution", "10 m · IW mode"],
-            ["Detection", "4.1 km² extent"],
-          ].map(([key, value]) => (
-            <div key={key}>
-              <span>{key}</span>
-              <b>{value}</b>
+          {previewUrl ? (
+            <div className="sar-preview-wrap">
+              <img src={previewUrl} alt="Selected SAR scene" />
+              <button type="button" onClick={clearImage}>Change image</button>
             </div>
-          ))}
-        </div>
+          ) : (
+            <label className="sar-drop-zone" htmlFor="sar-image-input">
+              <Upload size={26} />
+              <b>Choose a SAR image</b>
+              <span>PNG, JPEG, or TIFF · 256 × 256 · up to 10 MB</span>
+            </label>
+          )}
+          {selectedFile && <p className="sar-file-name">{selectedFile.name}</p>}
+          {error && <p className="sar-error">{error}</p>}
+        </section>
+
+        <aside className="sar-result-panel">
+          <small>STAGE 1 / DETECTION RESULT</small>
+          {status === "processing" ? (
+            <div className="sar-empty-state"><LoaderCircle className="spin" size={23} /><span>Model is analyzing the SAR tile…</span></div>
+          ) : result ? (
+            <>
+              <img className="sar-mask" src={`data:image/png;base64,${result.mask_png_base64}`} alt="Predicted oil-spill mask" />
+              <div className="sar-metric"><span>Oil coverage</span><b>{(result.oil_area_fraction * 100).toFixed(2)}%</b></div>
+              <div className="sar-metric"><span>Detected oil pixels</span><b>{result.oil_pixel_count.toLocaleString()}</b></div>
+              <p className="sar-complete">Analysis complete. The yellow area in the mask is the predicted slick extent.</p>
+            </>
+          ) : (
+            <div className="sar-empty-state"><Radar size={24} /><span>Select an image, then start analysis to view the model output.</span></div>
+          )}
+        </aside>
       </div>
     </>
   );

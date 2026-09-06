@@ -1,7 +1,12 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+import io
+import tempfile
+from pathlib import Path
+
+from fastapi import FastAPI, Depends, File, HTTPException, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
+from PIL import Image, UnidentifiedImageError
 
 from auth import (
     authenticate_user,
@@ -27,6 +32,7 @@ from schemas import (
 from services.environment import get_environment
 from services.simulation import simulate_spill
 from services.prediction import predict_risk
+from services.sar_detection import PipelineUnavailableError, analyze_image
 
 
 app = FastAPI(
@@ -202,3 +208,55 @@ def predict(
     current_user=Depends(get_current_user),
 ):
     return predict_risk(payload)
+
+
+@app.post("/sar/analyze", tags=["SAR Detection"])
+async def analyze_sar_image(
+    image: UploadFile = File(...),
+    current_user=Depends(get_current_user),
+):
+    """Process one 256x256 SAR image through the ML pipeline's Stage 1."""
+    allowed_types = {"image/png", "image/jpeg", "image/tiff"}
+    if image.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+            detail="Upload a PNG, JPEG, or TIFF SAR image.",
+        )
+
+    contents = await image.read()
+    if not contents:
+        raise HTTPException(status_code=400, detail="Select an image to analyze.")
+    if len(contents) > 10 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="The image must be 10 MB or smaller.")
+
+    try:
+        with Image.open(io.BytesIO(contents)) as source_image:
+            source_image.verify()
+        with Image.open(io.BytesIO(contents)) as source_image:
+            dimensions = source_image.size
+    except (UnidentifiedImageError, OSError, ValueError):
+        raise HTTPException(status_code=400, detail="The uploaded file is not a valid image.")
+
+    if dimensions != (256, 256):
+        raise HTTPException(
+            status_code=422,
+            detail="Stage 1 requires a 256 × 256 Sentinel-1 SAR tile.",
+        )
+
+    suffix = Path(image.filename or "scene.png").suffix.lower() or ".png"
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as temporary_file:
+            temporary_file.write(contents)
+            temporary_path = Path(temporary_file.name)
+
+        result = analyze_image(temporary_path)
+        return {"status": "completed", "filename": image.filename, "result": result}
+    except PipelineUnavailableError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="The SAR detection model is unavailable. Confirm the model checkpoint and ML dependencies are installed.",
+        ) from exc
+    finally:
+        if temporary_path:
+            temporary_path.unlink(missing_ok=True)

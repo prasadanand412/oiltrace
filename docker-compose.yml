@@ -2,8 +2,8 @@ services:
 
   backend:
     build:
-      context: ./oiltrace-backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: oiltrace-backend/Dockerfile
     container_name: oiltrace-backend
     ports:
       - "8001:8000"

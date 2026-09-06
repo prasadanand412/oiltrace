@@ -7,3 +7,6 @@ python-jose[cryptography]
 pydantic
 PyJWT
 httpx
+numpy>=1.26
+Pillow>=10.0
+torch>=2.4

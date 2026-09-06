@@ -2,11 +2,12 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY oiltrace-backend/requirements.txt ./requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY oiltrace-backend/ .
+COPY ml/detection ./ml/detection
 
 EXPOSE 8000
 
