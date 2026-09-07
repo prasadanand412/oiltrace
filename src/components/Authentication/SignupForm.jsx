@@ -17,9 +17,9 @@ export function SignupForm() {
       <Divider />
       <div className="name-row">
         <Input label="First name" placeholder="Rohan" />
-        <Input label="Last name" placeholder="Iyer" />
+        <Input label="Last name" placeholder="Patil" />
       </div>
-      <Input label="Work email" placeholder="name@agency.gov" type="email" />
+      <Input label="Email" placeholder="Name@gmail.com" type="email" />
       <Input label="Organisation" placeholder="Indian Coast Guard — West" />
       <Input
         label="Password"

@@ -236,7 +236,7 @@ h3 {
   opacity: 0.65;
   background-image: radial-gradient(#9ec3f8 3px, transparent 4px);
   background-size: 22px 22px;
-  mask-image: radial-gradient(ellipse, #fff 20%, transparent 70%);
+   mask-image: radial-gradient(ellipse, #fff 20%, transparent 70%);
 }
 .map-wave {
   position: absolute;

@@ -19,7 +19,7 @@ export function LoginForm() {
   function handleSubmit(event) {
     event.preventDefault();
     if (!email || !password) {
-      setError("Enter your work email and password to continue.");
+      setError("Enter your email and password to continue.");
       return;
     }
     setError("");
@@ -39,7 +39,7 @@ export function LoginForm() {
       <GoogleButton />
       <Divider />
       <form onSubmit={handleSubmit} noValidate>
-        <Input label="Work email" placeholder="name@agency.gov" type="email" value={email} onChange={setEmail} />
+        <Input label="Email" placeholder="Name@gmail.com" type="email" value={email} onChange={setEmail} />
         <Input label="Password" placeholder="Enter your password" type="password" value={password} onChange={setPassword} />
         <div className="form-row">
           <label>
