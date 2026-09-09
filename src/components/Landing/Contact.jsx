@@ -9,15 +9,15 @@ export function Contact() {
       <motion.div {...reveal}>
         <h2>Ready to Protect Our Oceans?</h2>
         <p>
-          Deploy OilTrace into your coastal command center. Reach out today to
-          schedule an on-site simulation briefing with our specialists.
+          Deploy OilTrace into your coastal command center. Reach out today to schedule
+          an on-site simulation briefing with our specialists.
         </p>
         <div>
           <Link to="/signup" className="button button-white">
             Request Demo
           </Link>
           <Link to="/signin" className="button button-ghost">
-            Launch Platform <ArrowRight size={16} />
+            Start Simulation <ArrowRight size={16} />
           </Link>
         </div>
       </motion.div>

@@ -34,7 +34,7 @@ export function Header() {
           Sign In
         </Link>
         <Link className="button button-blue button-small" to="/signin">
-          Launch Platform
+          Start Simulation
         </Link>
       </div>
       <button className="menu-button" onClick={toggle} aria-label="Toggle menu">

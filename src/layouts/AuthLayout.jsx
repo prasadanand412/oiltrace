@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { LoaderCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Logo } from "../components/Common/Logo";
 import { authFeatures } from "../data/content";
@@ -14,9 +15,8 @@ export function AuthAside() {
           <br /> coastal districts
         </h2>
         <p>
-          Nereid keeps detection, simulation and response coordination on a
-          single incident record — from the first radar return to shoreline
-          sign-off.
+          Nereid keeps detection, simulation and response coordination on a single
+          incident record — from the first radar return to shoreline sign-off.
         </p>
         <div className="feature-list">
           {authFeatures.map(([Icon, title, text], index) => (
@@ -72,15 +72,25 @@ export function Input({ label, placeholder, type = "text", value, onChange }) {
   return (
     <label className="input-label">
       {label}
-      <input type={type} placeholder={placeholder} value={value} onChange={(event) => onChange?.(event.target.value)} />
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={(event) => onChange?.(event.target.value)}
+      />
     </label>
   );
 }
-export function GoogleButton({ signup = false }) {
+export function GoogleButton({ onClick, loading = false }) {
   return (
-    <button className="google-button">
-      <b>G</b>
-      {signup ? "Sign up" : "Continue"} with Google
+    <button
+      className="google-button"
+      type="button"
+      onClick={onClick}
+      disabled={loading}
+    >
+      {loading ? <LoaderCircle className="spin" size={17} /> : <b>G</b>}
+      {loading ? "Connecting to Google" : "Continue with Google"}
     </button>
   );
 }
@@ -88,7 +98,7 @@ export function AuthFooter({ children, to }) {
   return (
     <p className="auth-foot">
       {children}{" "}
-      <Link to={to}>{to === "/signup" ? "Request an account" : "Sign in"}</Link>
+      <Link to={to}>{to === "/signup" ? "Create an account" : "Sign in"}</Link>
     </p>
   );
 }

@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Check, LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
 import {
   AuthFooter,
   Divider,
@@ -9,160 +7,112 @@ import {
   Input,
   AuthLayout,
 } from "../../layouts/AuthLayout";
+import { useAuth } from "../../store/useAuth";
+import { getAuthErrorMessage } from "../../utils/auth";
 
 export function SignupForm() {
   const navigate = useNavigate();
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [organisation, setOrganisation] = useState("");
-  const [password, setPassword] = useState("");
-  const [consent, setConsent] = useState(false);
-
+  const { signUp, signInWithGoogle } = useAuth();
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    organisation: "",
+    password: "",
+    consent: false,
+  });
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
 
-  async function handleSubmit(event) {
+  function update(field, value) {
+    setForm((current) => ({ ...current, [field]: value }));
+  }
+
+  function handleSubmit(event) {
     event.preventDefault();
+    const name =
+      [form.firstName.trim(), form.lastName.trim()].filter(Boolean).join(" ") ||
+      "OilTrace User";
+    const email = form.email.trim() || "user@oiltrace.local";
+    const organisation = form.organisation.trim() || "OilTrace Operations";
+    signUp({ name, email, organisation });
+    setStatus("success");
+    navigate("/dashboard");
+  }
 
-    if (!firstName || !lastName || !email || !organisation || !password) {
-      setError("Please complete all fields.");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must contain at least 6 characters.");
-      return;
-    }
-
-    if (!consent) {
-      setError(
-        "Please confirm that you are authorised to access the platform."
-      );
-      return;
-    }
-
+  function handleGoogleSignup() {
     setError("");
     setStatus("loading");
-
-    try {
-      const response = await fetch(
-        "http://localhost:8001/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: email,
-            password: password,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.detail || "Unable to create account.");
-      }
-
-      setStatus("success");
-
-      window.setTimeout(() => {
-        navigate("/signin");
-      }, 700);
-    } catch (err) {
-      setStatus("idle");
-      setError(err.message || "Unable to create account.");
-    }
+    signInWithGoogle()
+      .then(() => navigate("/dashboard"))
+      .catch((authError) => {
+        setStatus("idle");
+        setError(getAuthErrorMessage(authError));
+      });
   }
 
   return (
     <AuthLayout>
-      <h1>Request platform access</h1>
-
+      <h1>Create your account</h1>
       <p className="auth-subtitle">
         Accounts are provisioned per response organisation.
       </p>
-
-      <GoogleButton signup />
-
+      <GoogleButton onClick={handleGoogleSignup} loading={status === "loading"} />
       <Divider />
-
       <form onSubmit={handleSubmit} noValidate>
         <div className="name-row">
           <Input
             label="First name"
             placeholder="Rohan"
-            value={firstName}
-            onChange={setFirstName}
+            value={form.firstName}
+            onChange={(value) => update("firstName", value)}
           />
-
           <Input
             label="Last name"
-            placeholder="Iyer"
-            value={lastName}
-            onChange={setLastName}
+            placeholder="Patil"
+            value={form.lastName}
+            onChange={(value) => update("lastName", value)}
           />
         </div>
-
         <Input
-          label="Work email"
-          placeholder="name@agency.gov"
+          label="Email"
+          placeholder="Name@gmail.com"
           type="email"
-          value={email}
-          onChange={setEmail}
+          value={form.email}
+          onChange={(value) => update("email", value)}
         />
-
         <Input
           label="Organisation"
           placeholder="Indian Coast Guard — West"
-          value={organisation}
-          onChange={setOrganisation}
+          value={form.organisation}
+          onChange={(value) => update("organisation", value)}
         />
-
         <Input
           label="Password"
           placeholder="At least 12 characters"
           type="password"
-          value={password}
-          onChange={setPassword}
+          value={form.password}
+          onChange={(value) => update("password", value)}
         />
-
         <label className="consent">
           <input
             type="checkbox"
-            checked={consent}
-            onChange={(event) => setConsent(event.target.checked)}
+            checked={form.consent}
+            onChange={(event) => update("consent", event.target.checked)}
           />{" "}
           <span>
-            I confirm I am authorised to access operational pollution response
-            data for my organisation.
+            I confirm I am authorised to access operational pollution response data for
+            my organisation.
           </span>
         </label>
-
         {error && <p className="form-error">{error}</p>}
-
-        <button
-          type="submit"
-          className="submit-button"
-          disabled={status === "loading"}
-        >
-          {status === "loading" ? (
-            <LoaderCircle className="spin" size={18} />
-          ) : null}
-
-          {status === "success" ? (
-            <Check className="success-check" size={18} />
-          ) : status === "loading" ? (
-            "Creating account"
-          ) : (
-            "Create account"
-          )}
+        {status === "success" && (
+          <p className="form-success">Account created successfully.</p>
+        )}
+        <button className="submit-button" disabled={status === "success"}>
+          {status === "success" ? "Account created" : "Create account"}
         </button>
       </form>
-
       <AuthFooter to="/signin">Already have access?</AuthFooter>
     </AuthLayout>
   );
