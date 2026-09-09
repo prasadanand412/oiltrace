@@ -21,8 +21,7 @@ import { useAuth } from "../store/useAuth";
 function ProtectedRoute({ children }) {
   const { authLoading, isAuthenticated } = useAuth();
   const location = useLocation();
-  if (authLoading)
-    return <div className="auth-loading">Restoring your session...</div>;
+  if (authLoading) return <div className="auth-loading">Restoring your session...</div>;
   return isAuthenticated ? (
     children
   ) : (
@@ -32,8 +31,7 @@ function ProtectedRoute({ children }) {
 
 function PublicOnlyRoute({ children }) {
   const { authLoading, isAuthenticated } = useAuth();
-  if (authLoading)
-    return <div className="auth-loading">Restoring your session...</div>;
+  if (authLoading) return <div className="auth-loading">Restoring your session...</div>;
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : children;
 }
 

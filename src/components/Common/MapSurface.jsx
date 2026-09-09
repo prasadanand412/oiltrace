@@ -19,9 +19,7 @@ export function MapSurface({ layer, onLayerChange }) {
         ))}
       </div>
       <div className="map-zoom-layer" style={{ transform: `scale(${zoom})` }}>
-        <div
-          className={`map-heat layer-${layer.toLowerCase().replace(" ", "-")}`}
-        />
+        <div className={`map-heat layer-${layer.toLowerCase().replace(" ", "-")}`} />
         <div className="map-rings">
           <i />
           <i />

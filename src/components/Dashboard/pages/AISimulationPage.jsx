@@ -30,10 +30,7 @@ export function AISimulationPage() {
         title="Model a possible future"
         text="Set release conditions and watch the ensemble forecast take shape."
         action={
-          <button
-            className="module-action"
-            onClick={() => setRunning(!running)}
-          >
+          <button className="module-action" onClick={() => setRunning(!running)}>
             {running ? <RotateCcw size={16} /> : <Play size={16} />}{" "}
             {running ? "Reset run" : "Run simulation"}
           </button>
@@ -63,11 +60,7 @@ export function AISimulationPage() {
             onClick={() => setSensitiveZones(!sensitiveZones)}
           >
             <span>Include sensitive zones</span>
-            {sensitiveZones ? (
-              <ToggleRight size={24} />
-            ) : (
-              <ToggleLeft size={24} />
-            )}
+            {sensitiveZones ? <ToggleRight size={24} /> : <ToggleLeft size={24} />}
           </button>
         </div>
         <div

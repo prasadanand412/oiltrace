@@ -63,11 +63,7 @@ export function SettingsPage() {
                 {item}
                 <small>Keep your team informed about important changes.</small>
               </span>
-              {enabled[item] ? (
-                <ToggleRight size={24} />
-              ) : (
-                <ToggleLeft size={24} />
-              )}
+              {enabled[item] ? <ToggleRight size={24} /> : <ToggleLeft size={24} />}
             </button>
           ))}
         </div>

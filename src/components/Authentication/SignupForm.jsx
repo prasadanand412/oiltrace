@@ -8,6 +8,7 @@ import {
   AuthLayout,
 } from "../../layouts/AuthLayout";
 import { useAuth } from "../../store/useAuth";
+import { getAuthErrorMessage } from "../../utils/auth";
 
 export function SignupForm() {
   const navigate = useNavigate();
@@ -56,10 +57,7 @@ export function SignupForm() {
       <p className="auth-subtitle">
         Accounts are provisioned per response organisation.
       </p>
-      <GoogleButton
-        onClick={handleGoogleSignup}
-        loading={status === "loading"}
-      />
+      <GoogleButton onClick={handleGoogleSignup} loading={status === "loading"} />
       <Divider />
       <form onSubmit={handleSubmit} noValidate>
         <div className="name-row">
@@ -103,8 +101,8 @@ export function SignupForm() {
             onChange={(event) => update("consent", event.target.checked)}
           />{" "}
           <span>
-            I confirm I am authorised to access operational pollution response
-            data for my organisation.
+            I confirm I am authorised to access operational pollution response data for
+            my organisation.
           </span>
         </label>
         {error && <p className="form-error">{error}</p>}
@@ -118,14 +116,4 @@ export function SignupForm() {
       <AuthFooter to="/signin">Already have access?</AuthFooter>
     </AuthLayout>
   );
-}
-
-function getAuthErrorMessage(error) {
-  if (error?.code === "auth/popup-closed-by-user")
-    return "Google sign-in was cancelled.";
-  if (error?.code === "auth/popup-blocked")
-    return "Your browser blocked the Google sign-in popup.";
-  if (error?.code === "auth/network-request-failed")
-    return "Network error. Check your connection and try again.";
-  return error?.message || "Google sign-in failed. Please try again.";
 }

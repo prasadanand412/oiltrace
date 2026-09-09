@@ -44,9 +44,7 @@ export function UserManagementPage() {
       setUsers(Array.isArray(data) ? data : []);
       setStatus("success");
     } catch (err) {
-      setError(
-        err.message || "Unable to connect to the user management service.",
-      );
+      setError(err.message || "Unable to connect to the user management service.");
       setStatus("error");
     }
   }
@@ -58,15 +56,9 @@ export function UserManagementPage() {
     return () => window.clearTimeout(timer);
   }, []);
 
-  const onlineUsers = useMemo(
-    () => users.filter((user) => user.is_logged_in),
-    [users],
-  );
+  const onlineUsers = useMemo(() => users.filter((user) => user.is_logged_in), [users]);
 
-  const adminUsers = useMemo(
-    () => users.filter((user) => user.is_admin),
-    [users],
-  );
+  const adminUsers = useMemo(() => users.filter((user) => user.is_admin), [users]);
 
   function formatDate(dateString) {
     if (!dateString) {
@@ -116,10 +108,7 @@ export function UserManagementPage() {
 
           <h2>Loading User Management</h2>
 
-          <p>
-            Retrieving registered members from the OilTrace authentication
-            system.
-          </p>
+          <p>Retrieving registered members from the OilTrace authentication system.</p>
         </div>
       </div>
     );
@@ -177,8 +166,8 @@ export function UserManagementPage() {
           <h1>User Management</h1>
 
           <p>
-            Manage registered members and monitor authentication activity across
-            the OilTrace platform.
+            Manage registered members and monitor authentication activity across the
+            OilTrace platform.
           </p>
         </div>
 
@@ -254,8 +243,7 @@ export function UserManagementPage() {
             </div>
 
             <p>
-              All accounts currently registered in the OilTrace authentication
-              database.
+              All accounts currently registered in the OilTrace authentication database.
             </p>
           </div>
 
@@ -298,9 +286,7 @@ export function UserManagementPage() {
                     {/* Member */}
                     <td>
                       <div className="um-member">
-                        <div className="um-avatar">
-                          {getInitials(user.username)}
-                        </div>
+                        <div className="um-avatar">{getInitials(user.username)}</div>
 
                         <div className="um-member-info">
                           <strong>{user.username}</strong>
@@ -342,16 +328,12 @@ export function UserManagementPage() {
 
                     {/* Registered */}
                     <td>
-                      <span className="um-date">
-                        {formatDate(user.created_at)}
-                      </span>
+                      <span className="um-date">{formatDate(user.created_at)}</span>
                     </td>
 
                     {/* Last login */}
                     <td>
-                      <span className="um-date">
-                        {formatDate(user.last_login)}
-                      </span>
+                      <span className="um-date">{formatDate(user.last_login)}</span>
                     </td>
                   </tr>
                 ))}

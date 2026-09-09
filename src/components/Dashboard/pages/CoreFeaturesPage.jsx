@@ -30,8 +30,8 @@ export function CoreFeaturesPage() {
           <small>RECOMMENDED</small>
           <h2>Operational intelligence</h2>
           <p>
-            Bring satellite detection, met-ocean context and response readiness
-            into one auditable workflow.
+            Bring satellite detection, met-ocean context and response readiness into one
+            auditable workflow.
           </p>
           <button className="module-action">
             Explore capability <ChevronRight size={16} />
@@ -54,9 +54,7 @@ export function CoreFeaturesPage() {
               <div>
                 <b>{item}</b>
                 <small>
-                  {index % 2
-                    ? "Connected and ready"
-                    : "Available in your workspace"}
+                  {index % 2 ? "Connected and ready" : "Available in your workspace"}
                 </small>
               </div>
             </motion.div>

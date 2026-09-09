@@ -134,12 +134,8 @@ export function AuthProvider({ children }) {
     profiles[updatedUser.email.toLowerCase()] = updatedUser;
     saveProfiles(profiles);
 
-    persistSession(
-      updatedUser,
-      Boolean(window.localStorage.getItem(SESSION_KEY)),
-    );
-    if (updatedUser.provider === "google.com")
-      await saveFirebaseProfile(updatedUser);
+    persistSession(updatedUser, Boolean(window.localStorage.getItem(SESSION_KEY)));
+    if (updatedUser.provider === "google.com") await saveFirebaseProfile(updatedUser);
     setUser(updatedUser);
   }
 

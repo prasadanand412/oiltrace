@@ -6,21 +6,9 @@ import { ModuleViewHeader } from "../../Common/ModuleViewHeader";
 export function AlertsPage() {
   const [acknowledged, setAcknowledged] = useState([]);
   const alerts = [
-    [
-      "Tier 3 active",
-      "OSI-2418 forecast shoreline contact inside 15 hours",
-      "High",
-    ],
-    [
-      "SAR detection ready",
-      "New candidate detected near Gulf of Khambhat",
-      "Medium",
-    ],
-    [
-      "Asset status changed",
-      "GEOSENCE GF-02 has reached exclusion zone",
-      "Low",
-    ],
+    ["Tier 3 active", "OSI-2418 forecast shoreline contact inside 15 hours", "High"],
+    ["SAR detection ready", "New candidate detected near Gulf of Khambhat", "Medium"],
+    ["Asset status changed", "GEOSENCE GF-02 has reached exclusion zone", "Low"],
   ];
   function acknowledge(title) {
     setAcknowledged((current) =>

@@ -59,29 +59,13 @@ const searchResults = [
   ["Core Features", "Platform modules", "/dashboard/core-features"],
   ["AI Simulation", "Forecast modeling", "/dashboard/ai-simulation"],
   ["GIS Command Map", "Live map layers", "/dashboard/gis-command-map"],
-  [
-    "Incident Workflow",
-    "Response coordination",
-    "/dashboard/incident-workflow",
-  ],
-  [
-    "Satellite Radar SAR",
-    "Remote sensing passes",
-    "/dashboard/satellite-radar",
-  ],
-  [
-    "Sensitive Coastal Zones",
-    "Environmental exposure",
-    "/dashboard/sensitive-zones",
-  ],
+  ["Incident Workflow", "Response coordination", "/dashboard/incident-workflow"],
+  ["Satellite Radar SAR", "Remote sensing passes", "/dashboard/satellite-radar"],
+  ["Sensitive Coastal Zones", "Environmental exposure", "/dashboard/sensitive-zones"],
   ["Historical Archives", "Incident records", "/dashboard/historical-archives"],
   ["Analytics & Reports", "Coverage and trends", "/dashboard/analytics"],
   ["Alerts & Notifications", "Operational alerts", "/dashboard/alerts"],
-  [
-    "User Management",
-    "Manage registered members",
-    "/dashboard/user-management",
-  ],
+  ["User Management", "Manage registered members", "/dashboard/user-management"],
   ["OSI-2418", "Gulf of Khambhat · High", "/dashboard/incident-workflow"],
   ["OSI-2417", "Chennai coast · Moderate", "/dashboard/incident-workflow"],
   ["Weekly operational brief", "Recent report", "/dashboard/analytics"],
@@ -132,7 +116,7 @@ export function Dashboard({ children }) {
   return (
     <div className={`dashboard-page${collapsed ? " sidebar-collapsed" : ""}`}>
       <aside className="dashboard-sidebar">
-        <Link className="dashboard-brand" to="/dashboard">
+        <Link className="dashboard-brand" to="/">
           <span>
             <Waves size={25} />
           </span>
@@ -161,18 +145,14 @@ export function Dashboard({ children }) {
         </div>
         <div className="sidebar-account-links">
           <Link
-            className={
-              location.pathname === "/dashboard/settings" ? "active" : ""
-            }
+            className={location.pathname === "/dashboard/settings" ? "active" : ""}
             to="/dashboard/settings"
           >
             <Settings size={16} />
             <span>Settings</span>
           </Link>
           <Link
-            className={
-              location.pathname === "/dashboard/profile" ? "active" : ""
-            }
+            className={location.pathname === "/dashboard/profile" ? "active" : ""}
             to="/dashboard/profile"
           >
             <UserRound size={16} />
@@ -260,15 +240,12 @@ export function Dashboard({ children }) {
                   <small>OPERATIONAL WATCH · WEST & EAST COAST</small>
                   <h1>Incident overview</h1>
                   <p>
-                    Six incidents under management. OSI-2418 remains the
-                    controlling event with forecast shoreline contact inside 15
-                    hours.
+                    Six incidents under management. OSI-2418 remains the controlling
+                    event with forecast shoreline contact inside 15 hours.
                   </p>
                 </div>
                 <div className="heading-actions">
-                  <button
-                    onClick={() => navigate("/dashboard/gis-command-map")}
-                  >
+                  <button onClick={() => navigate("/dashboard/gis-command-map")}>
                     <Navigation size={17} /> Command map
                   </button>
                   <button
@@ -381,10 +358,7 @@ export function Dashboard({ children }) {
                       onClick={() => navigate("/dashboard/incident-workflow")}
                       key={id}
                     >
-                      <span
-                        className="incident-dot"
-                        style={{ background: color }}
-                      />
+                      <span className="incident-dot" style={{ background: color }} />
                       <div>
                         <b>
                           {id} · {place}

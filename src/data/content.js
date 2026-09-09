@@ -156,15 +156,7 @@ export const journeySteps = [
   ],
 ];
 export const authFeatures = [
-  [
-    Satellite,
-    "SAR passes triaged automatically",
-    "Sentinel-1, RADARSAT-2, PAZ",
-  ],
+  [Satellite, "SAR passes triaged automatically", "Sentinel-1, RADARSAT-2, PAZ"],
   [Zap, "48-hour ensemble trajectories", "12 members with uncertainty bands"],
-  [
-    ShieldCheck,
-    "Sensitivity-weighted risk",
-    "Habitat exposure before landfall",
-  ],
+  [ShieldCheck, "Sensitivity-weighted risk", "Habitat exposure before landfall"],
 ];

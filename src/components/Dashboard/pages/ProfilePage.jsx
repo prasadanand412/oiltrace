@@ -150,9 +150,7 @@ export function ProfilePage() {
               <div>
                 <span className="module-eyebrow">ACCOUNT / PROFILE</span>
                 <h2 id="profile-modal-title">Edit profile</h2>
-                <p>
-                  Keep your operational identity and account details current.
-                </p>
+                <p>Keep your operational identity and account details current.</p>
               </div>
               <button
                 className="modal-close"
@@ -167,11 +165,7 @@ export function ProfilePage() {
                 <UserAvatar user={{ ...user, ...form }} size="large" />
                 <label className="photo-upload">
                   <Camera size={15} /> Change photo
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePhotoChange}
-                  />
+                  <input type="file" accept="image/*" onChange={handlePhotoChange} />
                 </label>
               </div>
               <div className="profile-form-grid">
@@ -179,9 +173,7 @@ export function ProfilePage() {
                   Name
                   <input
                     value={form.name}
-                    onChange={(event) =>
-                      updateField("name", event.target.value)
-                    }
+                    onChange={(event) => updateField("name", event.target.value)}
                   />
                 </label>
                 <label>
@@ -189,18 +181,14 @@ export function ProfilePage() {
                   <input
                     type="email"
                     value={form.email}
-                    onChange={(event) =>
-                      updateField("email", event.target.value)
-                    }
+                    onChange={(event) => updateField("email", event.target.value)}
                   />
                 </label>
                 <label>
                   Phone number
                   <input
                     value={form.phone}
-                    onChange={(event) =>
-                      updateField("phone", event.target.value)
-                    }
+                    onChange={(event) => updateField("phone", event.target.value)}
                   />
                 </label>
                 <label>
@@ -216,9 +204,7 @@ export function ProfilePage() {
                   Designation
                   <input
                     value={form.designation}
-                    onChange={(event) =>
-                      updateField("designation", event.target.value)
-                    }
+                    onChange={(event) => updateField("designation", event.target.value)}
                   />
                 </label>
                 <label className="password-field">
@@ -228,9 +214,7 @@ export function ProfilePage() {
                   <input
                     type="password"
                     value={form.password}
-                    onChange={(event) =>
-                      updateField("password", event.target.value)
-                    }
+                    onChange={(event) => updateField("password", event.target.value)}
                     placeholder="New password"
                   />
                 </label>

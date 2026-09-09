@@ -8,8 +8,8 @@ export function Resources() {
         <div>
           <Logo dark />
           <p>
-            AI powered oil spill monitoring and simulation for coastal
-            authorities, port trusts and environmental response teams.
+            AI powered oil spill monitoring and simulation for coastal authorities, port
+            trusts and environmental response teams.
           </p>
         </div>
         <div>

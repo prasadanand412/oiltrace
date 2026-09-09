@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { animationEase, stats } from "../../data/content";
@@ -7,6 +13,9 @@ import { SectionHeading } from "../Common/SectionHeading";
 
 // Hero content and challenge metrics share the overview section.
 function Hero() {
+  const heroRef = useRef(null);
+  const pointerX = useSpring(useMotionValue(0), { stiffness: 90, damping: 24 });
+  const pointerY = useSpring(useMotionValue(0), { stiffness: 90, damping: 24 });
   const { scrollY } = useScroll();
   const mapY = useTransform(scrollY, [0, 700], [0, -36]);
   const waveY = useTransform(scrollY, [0, 700], [0, 18]);
@@ -20,7 +29,21 @@ function Hero() {
   ];
 
   return (
-    <section className="hero-section" id="overview">
+    <section
+      className="hero-section"
+      id="overview"
+      ref={heroRef}
+      onMouseMove={(event) => {
+        const bounds = heroRef.current?.getBoundingClientRect();
+        if (!bounds) return;
+        pointerX.set((event.clientX - bounds.left - bounds.width / 2) / 55);
+        pointerY.set((event.clientY - bounds.top - bounds.height / 2) / 55);
+      }}
+      onMouseLeave={() => {
+        pointerX.set(0);
+        pointerY.set(0);
+      }}
+    >
       <div className="hero-grid" />
       <motion.div
         className="hero-copy"
@@ -40,8 +63,7 @@ function Hero() {
           transition={{ duration: 0.4, ease: animationEase }}
         >
           <span />
-          SIH 2026{" "}
-          <em>AI oil spill trajectory intelligence for coastal agencies</em>
+          SIH 2026 <em>AI oil spill trajectory intelligence for coastal agencies</em>
         </motion.div>
         <motion.h1
           variants={{
@@ -50,9 +72,9 @@ function Hero() {
           }}
           transition={{ duration: 0.5, ease: animationEase }}
         >
-          Predict. Visualize.
+          <span className="hero-heading-line">Predict. Visualize.</span>
           <br />
-          <b>Protect.</b>
+          <b className="hero-heading-line">Protect.</b>
         </motion.h1>
         <motion.p
           variants={{
@@ -62,9 +84,8 @@ function Hero() {
           transition={{ duration: 0.45, ease: animationEase }}
         >
           OilTrace fuses satellite observation, live met-ocean feeds and machine
-          learning to forecast how a marine oil spill will travel — so response
-          teams can deploy booms, skimmers and crews hours before the slick
-          reaches shore.
+          learning to forecast how a marine oil spill will travel — so response teams
+          can deploy booms, skimmers and crews hours before the slick reaches shore.
         </motion.p>
         <motion.div
           className="hero-actions"
@@ -82,7 +103,7 @@ function Hero() {
           </a>
         </motion.div>
       </motion.div>
-      <motion.div className="hero-map" style={{ y: mapY }}>
+      <motion.div className="hero-map" style={{ x: pointerX, y: mapY }}>
         <div className="map-dots" />
         <motion.div className="map-wave map-wave-one" style={{ y: waveY }} />
         <motion.div className="map-wave map-wave-two" style={{ y: waveY }} />
@@ -168,10 +189,19 @@ function AnimatedStat({ value }) {
 
 function Challenge() {
   return (
-    <section className="challenge band">
+    <section className="challenge challenge-premium band">
+      <div className="challenge-atmosphere" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
       <SectionHeading
         eyebrow="THE CHALLENGE"
         title="Marine spills move faster than the agencies responding to them"
+        wordReveal
         viewport={{ once: true, margin: "-80px" }}
         text="Roughly 700,000 tonnes of oil enter the ocean every year.
      The bottleneck is rarely equipment — it is knowing where the oil will be next."
@@ -179,14 +209,14 @@ function Challenge() {
       <div className="stat-grid">
         {stats.map(([Icon, stat, label, title, text], index) => (
           <motion.article
-            className={`stat-card${index === 0 ? " stat-card-active" : ""}`}
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className="cap-card challenge-cap-card"
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             whileHover={{ y: -5, scale: 1.03 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{
-              duration: 0.45,
-              delay: index * 0.08,
+              duration: 0.5,
+              delay: index * 0.06,
               ease: [0.22, 1, 0.36, 1],
             }}
             key={title}
@@ -205,8 +235,8 @@ function Challenge() {
             </motion.div>
             <div className="stat-number">
               <AnimatedStat value={stat} />
-              <small>{label}</small>
             </div>
+            <small>{label}</small>
             <h3>{title}</h3>
             <p>{text}</p>
           </motion.article>

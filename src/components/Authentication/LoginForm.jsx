@@ -9,6 +9,7 @@ import {
   AuthLayout,
 } from "../../layouts/AuthLayout";
 import { useAuth } from "../../store/useAuth";
+import { getAuthErrorMessage } from "../../utils/auth";
 
 export function LoginForm() {
   const navigate = useNavigate();
@@ -70,10 +71,7 @@ export function LoginForm() {
       <p className="auth-subtitle">
         Use your agency credentials or continue with Google.
       </p>
-      <GoogleButton
-        onClick={handleGoogleLogin}
-        loading={status === "loading"}
-      />
+      <GoogleButton onClick={handleGoogleLogin} loading={status === "loading"} />
       <Divider />
       <form onSubmit={handleSubmit} noValidate>
         <Input
@@ -103,9 +101,7 @@ export function LoginForm() {
         </div>
         {error && <p className="form-error">{error}</p>}
         <button className="submit-button" disabled={status === "loading"}>
-          {status === "loading" ? (
-            <LoaderCircle className="spin" size={18} />
-          ) : null}
+          {status === "loading" ? <LoaderCircle className="spin" size={18} /> : null}
           {status === "success" ? (
             <Check className="success-check" size={18} />
           ) : status === "loading" ? (
@@ -118,14 +114,4 @@ export function LoginForm() {
       <AuthFooter to="/signup">Need access?</AuthFooter>
     </AuthLayout>
   );
-}
-
-function getAuthErrorMessage(error) {
-  if (error?.code === "auth/popup-closed-by-user")
-    return "Google sign-in was cancelled.";
-  if (error?.code === "auth/popup-blocked")
-    return "Your browser blocked the Google sign-in popup.";
-  if (error?.code === "auth/network-request-failed")
-    return "Network error. Check your connection and try again.";
-  return error?.message || "Google sign-in failed. Please try again.";
 }
