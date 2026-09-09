@@ -73,13 +73,23 @@ export function Input({ label, placeholder, type = "text", value, onChange }) {
   return (
     <label className="input-label">
       {label}
-      <input type={type} placeholder={placeholder} value={value} onChange={(event) => onChange?.(event.target.value)} />
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={(event) => onChange?.(event.target.value)}
+      />
     </label>
   );
 }
 export function GoogleButton({ onClick, loading = false }) {
   return (
-    <button className="google-button" type="button" onClick={onClick} disabled={loading}>
+    <button
+      className="google-button"
+      type="button"
+      onClick={onClick}
+      disabled={loading}
+    >
       {loading ? <LoaderCircle className="spin" size={17} /> : <b>G</b>}
       {loading ? "Connecting to Google" : "Continue with Google"}
     </button>

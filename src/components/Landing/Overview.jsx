@@ -11,8 +11,12 @@ function Hero() {
   const mapY = useTransform(scrollY, [0, 700], [0, -36]);
   const waveY = useTransform(scrollY, [0, 700], [0, 18]);
   const particles = [
-    [18, 22, 0], [31, 64, 1.2], [47, 16, .6], [65, 72, 1.8],
-    [79, 31, .9], [88, 61, 1.5],
+    [18, 22, 0],
+    [31, 64, 1.2],
+    [47, 16, 0.6],
+    [65, 72, 1.8],
+    [79, 31, 0.9],
+    [88, 61, 1.5],
   ];
 
   return (
@@ -22,25 +26,54 @@ function Hero() {
         className="hero-copy"
         initial="hidden"
         animate="visible"
-        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.1 } },
+        }}
       >
-        <motion.div className="status-pill" variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0 } }} transition={{ duration: .4, ease: animationEase }}>
+        <motion.div
+          className="status-pill"
+          variants={{
+            hidden: { opacity: 0, y: 14 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.4, ease: animationEase }}
+        >
           <span />
           SIH 2026{" "}
           <em>AI oil spill trajectory intelligence for coastal agencies</em>
         </motion.div>
-        <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} transition={{ duration: .5, ease: animationEase }}>
+        <motion.h1
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.5, ease: animationEase }}
+        >
           Predict. Visualize.
           <br />
           <b>Protect.</b>
         </motion.h1>
-        <motion.p variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }} transition={{ duration: .45, ease: animationEase }}>
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: 16 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.45, ease: animationEase }}
+        >
           OilTrace fuses satellite observation, live met-ocean feeds and machine
           learning to forecast how a marine oil spill will travel — so response
           teams can deploy booms, skimmers and crews hours before the slick
           reaches shore.
         </motion.p>
-        <motion.div className="hero-actions" variants={{ hidden: { opacity: 0, scale: .96 }, visible: { opacity: 1, scale: 1 } }} transition={{ duration: .3, ease: animationEase }}>
+        <motion.div
+          className="hero-actions"
+          variants={{
+            hidden: { opacity: 0, scale: 0.96 },
+            visible: { opacity: 1, scale: 1 },
+          }}
+          transition={{ duration: 0.3, ease: animationEase }}
+        >
           <Link to="/signin" className="button button-blue hero-primary-button">
             Start Simulation <ArrowRight size={18} />
           </Link>
@@ -53,10 +86,42 @@ function Hero() {
         <div className="map-dots" />
         <motion.div className="map-wave map-wave-one" style={{ y: waveY }} />
         <motion.div className="map-wave map-wave-two" style={{ y: waveY }} />
-        <motion.span className="map-point point-one" animate={{ y: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
-        <motion.span className="map-point point-two" animate={{ y: [0, 7, 0] }} transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut", delay: .8 }} />
-        <motion.span className="map-point point-three" animate={{ y: [0, -6, 0] }} transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }} />
-        {particles.map(([left, top, delay]) => <span className="hero-particle" style={{ left: `${left}%`, top: `${top}%`, animationDelay: `${delay}s` }} key={`${left}-${top}`} />)}
+        <motion.span
+          className="map-point point-one"
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.span
+          className="map-point point-two"
+          animate={{ y: [0, 7, 0] }}
+          transition={{
+            duration: 4.6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.8,
+          }}
+        />
+        <motion.span
+          className="map-point point-three"
+          animate={{ y: [0, -6, 0] }}
+          transition={{
+            duration: 3.8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1.2,
+          }}
+        />
+        {particles.map(([left, top, delay]) => (
+          <span
+            className="hero-particle"
+            style={{
+              left: `${left}%`,
+              top: `${top}%`,
+              animationDelay: `${delay}s`,
+            }}
+            key={`${left}-${top}`}
+          />
+        ))}
       </motion.div>
     </section>
   );
@@ -67,26 +132,38 @@ function AnimatedStat({ value }) {
   const [displayValue, setDisplayValue] = useState("0");
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      const start = performance.now();
-      const tick = (now) => {
-        const progress = Math.min((now - start) / 1200, 1);
-        const eased = 1 - (1 - progress) ** 3;
-        const nextValue = numericValue % 1 ? (numericValue * eased).toFixed(1) : Math.round(numericValue * eased);
-        setDisplayValue(String(nextValue));
-        if (progress < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      observer.disconnect();
-    }, { rootMargin: "-80px 0px", threshold: 0.15 });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        const start = performance.now();
+        const tick = (now) => {
+          const progress = Math.min((now - start) / 1200, 1);
+          const eased = 1 - (1 - progress) ** 3;
+          const nextValue =
+            numericValue % 1
+              ? (numericValue * eased).toFixed(1)
+              : Math.round(numericValue * eased);
+          setDisplayValue(String(nextValue));
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        observer.disconnect();
+      },
+      { rootMargin: "-80px 0px", threshold: 0.15 },
+    );
     if (valueRef.current) observer.observe(valueRef.current);
     return () => observer.disconnect();
   }, [numericValue]);
 
   const prefix = value.match(/^[^\d]*/)?.[0] ?? "";
   const suffix = value.replace(/^[^\d]*\d+(?:\.\d+)?/, "");
-  return <span ref={valueRef}>{prefix}{displayValue}{suffix}</span>;
+  return (
+    <span ref={valueRef}>
+      {prefix}
+      {displayValue}
+      {suffix}
+    </span>
+  );
 }
 
 function Challenge() {
@@ -107,13 +184,22 @@ function Challenge() {
             whileInView={{ opacity: 1, y: 0 }}
             whileHover={{ y: -5, scale: 1.03 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.45, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.45,
+              delay: index * 0.08,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             key={title}
           >
             <motion.div
               className="icon-circle"
               animate={{ y: [0, -3, 0], scale: [1, 1.04, 1] }}
-              transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: index * 0.18 }}
+              transition={{
+                duration: 3.2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: index * 0.18,
+              }}
             >
               <Icon size={17} />
             </motion.div>

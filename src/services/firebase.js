@@ -1,5 +1,10 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -12,13 +17,19 @@ const firebaseConfig = {
 };
 
 export const firebaseConfigured = Object.values(firebaseConfig).every(Boolean);
-const app = firebaseConfigured ? (getApps().length ? getApp() : initializeApp(firebaseConfig)) : null;
+const app = firebaseConfigured
+  ? getApps().length
+    ? getApp()
+    : initializeApp(firebaseConfig)
+  : null;
 export const firebaseAuth = app ? getAuth(app) : null;
 export const firestore = app ? getFirestore(app) : null;
 
 export function requireFirebase() {
   if (!firebaseConfigured || !firebaseAuth || !firestore) {
-    throw new Error("Google sign-in is not configured. Add the Firebase VITE_ settings to .env.local.");
+    throw new Error(
+      "Google sign-in is not configured. Add the Firebase VITE_ settings to .env.local.",
+    );
   }
 }
 
@@ -44,13 +55,21 @@ export async function getFirebaseProfile(firebaseUser) {
     photoUrl: firebaseUser.photoURL || previous.photoUrl || "",
     provider: "google.com",
   };
-  await setDoc(userRef, { ...profile, updatedAt: new Date().toISOString() }, { merge: true });
+  await setDoc(
+    userRef,
+    { ...profile, updatedAt: new Date().toISOString() },
+    { merge: true },
+  );
   return profile;
 }
 
 export async function saveFirebaseProfile(profile) {
   requireFirebase();
-  await setDoc(doc(firestore, "users", profile.uid), { ...profile, updatedAt: new Date().toISOString() }, { merge: true });
+  await setDoc(
+    doc(firestore, "users", profile.uid),
+    { ...profile, updatedAt: new Date().toISOString() },
+    { merge: true },
+  );
 }
 
 export async function signOutFirebase() {

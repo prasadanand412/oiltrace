@@ -24,7 +24,11 @@ export function SimulationJourney() {
             initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.5,
+              delay: index * 0.12,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             key={number}
           >
             <motion.div
@@ -32,7 +36,12 @@ export function SimulationJourney() {
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ type: "spring", stiffness: 300, damping: 16, delay: index * 0.12 }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 16,
+                delay: index * 0.12,
+              }}
             >
               {number}
             </motion.div>

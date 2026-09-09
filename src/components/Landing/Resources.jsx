@@ -7,7 +7,10 @@ export function Resources() {
       <div className="footer-main">
         <div>
           <Logo dark />
-          <p>AI powered oil spill monitoring and simulation for coastal authorities, port trusts and environmental response teams.</p>
+          <p>
+            AI powered oil spill monitoring and simulation for coastal
+            authorities, port trusts and environmental response teams.
+          </p>
         </div>
         <div>
           <b>PLATFORM</b>

@@ -11,7 +11,11 @@ export function Eyebrow({ children }) {
 }
 export function SectionHeading({ eyebrow, title, text, viewport }) {
   return (
-    <motion.div className="section-heading" {...reveal} viewport={viewport ?? reveal.viewport}>
+    <motion.div
+      className="section-heading"
+      {...reveal}
+      viewport={viewport ?? reveal.viewport}
+    >
       <Eyebrow>{eyebrow}</Eyebrow>
       <h2>{title}</h2>
       {text && <p>{text}</p>}

@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "./auth-context";
-import { firebaseAuth, getFirebaseProfile, saveFirebaseProfile, signInWithGooglePopup, signOutFirebase } from "../services/firebase";
+import {
+  firebaseAuth,
+  getFirebaseProfile,
+  saveFirebaseProfile,
+  signInWithGooglePopup,
+  signOutFirebase,
+} from "../services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 const SESSION_KEY = "oiltrace.auth.session";
@@ -128,10 +134,29 @@ export function AuthProvider({ children }) {
     profiles[updatedUser.email.toLowerCase()] = updatedUser;
     saveProfiles(profiles);
 
-    persistSession(updatedUser, Boolean(window.localStorage.getItem(SESSION_KEY)));
-    if (updatedUser.provider === "google.com") await saveFirebaseProfile(updatedUser);
+    persistSession(
+      updatedUser,
+      Boolean(window.localStorage.getItem(SESSION_KEY)),
+    );
+    if (updatedUser.provider === "google.com")
+      await saveFirebaseProfile(updatedUser);
     setUser(updatedUser);
   }
 
-  return <AuthContext.Provider value={{ user, authLoading, isAuthenticated: Boolean(user), signIn, signInWithGoogle, signUp, signOut, updateProfile }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        authLoading,
+        isAuthenticated: Boolean(user),
+        signIn,
+        signInWithGoogle,
+        signUp,
+        signOut,
+        updateProfile,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
