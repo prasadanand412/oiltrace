@@ -35,7 +35,7 @@ export function Resources() {
         <span>© 2026 OilTrace. Built for Smart India Hackathon.</span>
         <span>
           <Link to="/signin">Sign In</Link>
-          <Link to="/signin">Launch Platform</Link>
+          <Link to="/signin">Start Simulation</Link>
         </span>
       </div>
     </footer>

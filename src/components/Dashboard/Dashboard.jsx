@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ModuleWorkspace } from "./ModuleWorkspace";
 import {
   Activity,
   Archive,
@@ -12,6 +11,7 @@ import {
   Clock3,
   Leaf,
   LayoutDashboard,
+  LogOut,
   Map,
   Menu,
   Navigation,
@@ -25,6 +25,8 @@ import {
   Workflow,
   UserRound,
 } from "lucide-react";
+import { UserAvatar } from "../Common/UserAvatar";
+import { useAuth } from "../../store/useAuth";
 
 const navigation = [
   [LayoutDashboard, "Dashboard", "/dashboard"],
@@ -78,16 +80,22 @@ function KpiCard({ item, index }) {
   );
 }
 
-export function Dashboard({ module = "Dashboard" }) {
+export function Dashboard({ children }) {
   const [collapsed, setCollapsed] = useState(false);
   const [query, setQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
   const suggestions = query.trim() ? searchResults.filter(([title, detail]) => `${title} ${detail}`.toLowerCase().includes(query.toLowerCase())).slice(0, 6) : [];
 
   function openSearchResult(path) {
     setQuery("");
     navigate(path);
+  }
+
+  function handleSignOut() {
+    signOut();
+    navigate("/");
   }
   return (
     <div className={`dashboard-page${collapsed ? " sidebar-collapsed" : ""}`}>
@@ -96,7 +104,7 @@ export function Dashboard({ module = "Dashboard" }) {
         <div className="sidebar-label">OPERATIONS</div>
         <nav>{navigation.map(([Icon, label, path]) => <Link className={location.pathname === path ? "active" : ""} to={path} key={label}><Icon size={18} /><span>{label}</span></Link>)}</nav>
         <div className="watch-status"><small>WATCH STATUS</small><b><i /> All feeds nominal</b><span>Next SAR pass 09:42 UTC · Sentinel-1A</span></div>
-        <div className="sidebar-account-links"><Link className={location.pathname === "/dashboard/settings" ? "active" : ""} to="/dashboard/settings"><Settings size={16} /><span>Settings</span></Link><Link className={location.pathname === "/dashboard/profile" ? "active" : ""} to="/dashboard/profile"><UserRound size={16} /><span>Profile</span></Link></div>
+        <div className="sidebar-account-links"><Link className={location.pathname === "/dashboard/settings" ? "active" : ""} to="/dashboard/settings"><Settings size={16} /><span>Settings</span></Link><Link className={location.pathname === "/dashboard/profile" ? "active" : ""} to="/dashboard/profile"><UserRound size={16} /><span>Profile</span></Link><button className="account-signout" onClick={handleSignOut}><LogOut size={16} /><span>Log out</span></button></div>
       </aside>
       <main className="dashboard-content">
         <header className="dashboard-topbar">
@@ -105,10 +113,10 @@ export function Dashboard({ module = "Dashboard" }) {
           <div className="dashboard-date"><CalendarDays size={16} /> 25 Aug 2026 · 06:58 UTC</div>
           <span className="alert-badge"><i /> Tier 3 active</span>
           <button className="notification-button" onClick={() => navigate("/dashboard/alerts")} aria-label="Notifications"><Bell size={19} /><i /></button>
-          <button className="profile" onClick={() => navigate("/dashboard/profile")} aria-label="Open profile"><span>RI</span><div><b>R. Iyer</b><small>Incident Commander</small></div><ChevronDown size={16} /></button>
+          <button className="profile" onClick={() => navigate("/dashboard/profile")} aria-label="Open profile"><UserAvatar user={user} size="small" /><div><b>{user.name}</b><small>{user.email}</small></div><ChevronDown size={16} /></button>
         </header>
         <div className="dashboard-inner">
-          {module === "Dashboard" ? <>
+          {children ?? <>
           <motion.div className="dashboard-heading" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .5 }}>
             <div><small>OPERATIONAL WATCH · WEST & EAST COAST</small><h1>Incident overview</h1><p>Six incidents under management. OSI-2418 remains the controlling event with forecast shoreline contact inside 15 hours.</p></div>
             <div className="heading-actions"><button onClick={() => navigate("/dashboard/gis-command-map")}><Navigation size={17} /> Command map</button><button className="primary-action" onClick={() => navigate("/dashboard/ai-simulation")}><Plus size={18} /> New simulation</button></div>
@@ -119,7 +127,7 @@ export function Dashboard({ module = "Dashboard" }) {
             <section className="dashboard-card risk-card"><div className="card-header"><div><h2>AI risk assessment</h2><p>Ensemble v4.2 · 12 members · updated 06:22 UTC</p></div><ShieldCheck className="risk-icon" size={22} /></div><div className="risk-list"><RiskBar label="Shoreline contact probability" place="Hazira / Suvali stretch" value={78} color="red" /><RiskBar label="Ecological sensitivity exposure" place="Mangrove priority zone" value={64} color="amber" /><RiskBar label="Response window remaining" place="Recommended action window" value={42} color="blue" /></div><div className="risk-footer"><span>Overall risk index</span><strong>HIGH <small>78/100</small></strong></div></section>
           </div>
           <div className="dashboard-grid lower-grid"><section className="dashboard-card incidents-card"><div className="card-header"><div><h2>Recent incidents</h2><p>Latest changes across your operational watch</p></div><button className="card-link" onClick={() => navigate("/dashboard/incident-workflow")}>View all</button></div>{incidents.map(([id, place, time, severity, color]) => <button className="incident-row" onClick={() => navigate("/dashboard/incident-workflow")} key={id}><span className="incident-dot" style={{ background: color }} /><div><b>{id} · {place}</b><small>{time}</small></div><em style={{ color }}>{severity}</em></button>)}</section><section className="dashboard-card analytics-card"><div className="card-header"><div><h2>Coverage analytics</h2><p>Monitoring footprint · last 7 days</p></div><button className="select-button" onClick={() => navigate("/dashboard/analytics")}>7 days <ChevronDown size={14} /></button></div><div className="chart-value"><strong>94.8%</strong><span><Activity size={13} /> +4.2%</span></div><svg className="analytics-chart" viewBox="0 0 560 120" preserveAspectRatio="none"><path d="M0 93 C45 84 52 62 94 71 S145 82 180 54 S235 77 275 45 S330 54 362 26 S420 44 454 30 S510 42 560 10" /><path className="chart-area" d="M0 93 C45 84 52 62 94 71 S145 82 180 54 S235 77 275 45 S330 54 362 26 S420 44 454 30 S510 42 560 10 V120 H0Z" /></svg></section></div>
-          </> : <ModuleWorkspace module={module} />}
+          </>}
         </div>
       </main>
     </div>

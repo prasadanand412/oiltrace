@@ -42,7 +42,7 @@ function Hero() {
         </motion.p>
         <motion.div className="hero-actions" variants={{ hidden: { opacity: 0, scale: .96 }, visible: { opacity: 1, scale: 1 } }} transition={{ duration: .3, ease: animationEase }}>
           <Link to="/signin" className="button button-blue hero-primary-button">
-            Launch Platform <ArrowRight size={18} />
+            Start Simulation <ArrowRight size={18} />
           </Link>
           <a href="#journey" className="button button-outline">
             See how a simulation runs

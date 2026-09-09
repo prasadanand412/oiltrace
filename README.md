@@ -1,4 +1,22 @@
-# React + Vite
+# OilTrace
+
+## Firebase Google Sign-In
+
+Copy `.env.example` to `.env.local` and fill in the Firebase web app values. In the Firebase console:
+
+1. Enable **Google** under Authentication > Sign-in method.
+2. Add `localhost` and the deployed application domain under Authentication > Settings > Authorized domains.
+3. Create a Firestore database. Google profiles are stored in the `users` collection using the Firebase UID as the document ID.
+
+Start the app with:
+
+```bash
+npm run dev
+```
+
+Without Firebase environment values, the Google button shows a configuration error and does not create a fake session.
+
+## Development
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

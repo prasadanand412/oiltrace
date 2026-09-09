@@ -17,7 +17,7 @@ export function Contact() {
             Request Demo
           </Link>
           <Link to="/signin" className="button button-ghost">
-            Launch Platform <ArrowRight size={16} />
+            Start Simulation <ArrowRight size={16} />
           </Link>
         </div>
       </motion.div>
