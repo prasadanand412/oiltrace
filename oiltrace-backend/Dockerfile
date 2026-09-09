@@ -8,6 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY oiltrace-backend/ .
 COPY ml/detection ./ml/detection
+COPY ml/attribution ./ml/attribution
+COPY ml/drift_trace ./ml/drift_trace
 
 EXPOSE 8000
 

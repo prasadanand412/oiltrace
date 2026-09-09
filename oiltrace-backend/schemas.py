@@ -1,3 +1,6 @@
+from datetime import datetime
+from typing import Any, Literal
+
 from pydantic import BaseModel, Field
 
 
@@ -52,3 +55,25 @@ class PredictionResponse(BaseModel):
     risk_score: float
     factors: dict
     geojson: dict
+
+
+class BacktrackRequest(BaseModel):
+    """Observed slick metadata used to begin the Stage 2 investigation."""
+
+    time: datetime
+    latitude: float = Field(ge=0, le=90)
+    longitude: float = Field(ge=0, le=180)
+    latitude_direction: Literal["N", "S"]
+    longitude_direction: Literal["E", "W"]
+    duration_hours: int = Field(default=24, ge=1, le=72)
+    steps: int = Field(default=24, ge=4, le=72)
+
+
+class AttributionRequest(BaseModel):
+    """Stage 2 hand-off. Coordinates are signed decimal degrees."""
+
+    source_latitude: float = Field(ge=-90, le=90)
+    source_longitude: float = Field(ge=-180, le=180)
+    source_time: datetime
+    source_area: dict[str, Any] | None = None
+    observation_time: datetime | None = None

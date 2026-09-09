@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { LoaderCircle, Radar, Upload } from "lucide-react";
+import { ArrowRight, LoaderCircle, Radar, Upload } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Dashboard } from "../Dashboard";
 import { ModuleViewHeader } from "../../Common/ModuleViewHeader";
 import { apiRequest } from "../../../services/api";
+import { useInvestigation } from "../../../store/InvestigationContext";
+import { InvestigationStages } from "./InvestigationStages";
 
 const MAX_SIZE = 10 * 1024 * 1024;
 const ACCEPTED_TYPES = new Set(["image/png", "image/jpeg", "image/tiff"]);
@@ -15,6 +18,8 @@ function validateImage(file) {
 }
 
 export function SatelliteRadarPage() {
+  const navigate = useNavigate();
+  const { setStage1Result } = useInvestigation();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [result, setResult] = useState(null);
@@ -83,6 +88,7 @@ export function SatelliteRadarPage() {
       formData.append("image", selectedFile);
       const response = await apiRequest("/sar/analyze", { method: "POST", body: formData });
       setResult(response.result);
+      setStage1Result(response.result);
       setStatus("complete");
     } catch (requestError) {
       setStatus("idle");
@@ -103,6 +109,7 @@ export function SatelliteRadarPage() {
           </button>
         }
       />
+      <InvestigationStages active="sar" />
       <div className="sar-analysis-layout">
         <section className="sar-upload-panel">
           <input id="sar-image-input" className="sar-file-input" type="file" accept=".png,.jpg,.jpeg,.tif,.tiff,image/png,image/jpeg,image/tiff" onChange={chooseImage} />
@@ -131,6 +138,7 @@ export function SatelliteRadarPage() {
               <div className="sar-metric"><span>Oil coverage</span><b>{(result.oil_area_fraction * 100).toFixed(2)}%</b></div>
               <div className="sar-metric"><span>Detected oil pixels</span><b>{result.oil_pixel_count.toLocaleString()}</b></div>
               <p className="sar-complete">Analysis complete. The mask shows the predicted slick extent.</p>
+              <button className="module-action sar-next-stage" onClick={() => navigate("/dashboard/particle-backtracking")}>Continue to particle backtracking <ArrowRight size={16} /></button>
             </>
           ) : (
             <div className="sar-empty-state"><Radar size={24} /><span>Select a 256 × 256 tile, then start analysis to view the model output.</span></div>

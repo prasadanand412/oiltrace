@@ -28,12 +28,16 @@ from schemas import (
     SimulationResponse,
     PredictionRequest,
     PredictionResponse,
+    BacktrackRequest,
+    AttributionRequest,
 )
 
 from services.environment import get_environment
 from services.simulation import simulate_spill
 from services.prediction import predict_risk
 from services.sar_detection import PipelineUnavailableError, analyze_image
+from services.backtracking import run_backtracking, signed_coordinate
+from services.attribution import analyze_sources
 
 
 app = FastAPI(
@@ -190,6 +194,39 @@ async def environment(
             status_code=status.HTTP_502_BAD_GATEWAY,
             detail="Weather and marine data are temporarily unavailable.",
         ) from exc
+
+
+@app.post("/backtrack", tags=["Particle Backtracking"])
+async def backtrack(payload: BacktrackRequest, current_user=Depends(get_current_user)):
+    """Estimate a likely source area using the signed hemisphere inputs supplied by Stage 2."""
+    latitude = signed_coordinate(payload.latitude, payload.latitude_direction, "N")
+    longitude = signed_coordinate(payload.longitude, payload.longitude_direction, "E")
+    try:
+        environment_data = await get_environment(latitude, longitude)
+    except httpx.HTTPError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Environmental data is temporarily unavailable; backtracking could not run.",
+        ) from exc
+    return run_backtracking(
+        observed_latitude=latitude,
+        observed_longitude=longitude,
+        observation_time=payload.time,
+        environment=environment_data,
+        duration_hours=payload.duration_hours,
+        steps=payload.steps,
+    )
+
+
+@app.post("/attribution", tags=["Source Attribution"])
+def attribution(payload: AttributionRequest, current_user=Depends(get_current_user)):
+    """Analyze only configured source records and return a probabilistic ranking."""
+    return analyze_sources(
+        latitude=payload.source_latitude,
+        longitude=payload.source_longitude,
+        source_time=payload.source_time,
+        source_area=payload.source_area,
+    )
 
 
 @app.post(

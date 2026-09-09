@@ -16,6 +16,8 @@ import { SatelliteRadarPage } from "../components/Dashboard/pages/SatelliteRadar
 import { SensitiveZonesPage } from "../components/Dashboard/pages/SensitiveZonesPage";
 import { SettingsPage } from "../components/Dashboard/pages/SettingsPage";
 import { UserManagementPage } from "../components/Dashboard/pages/UserManagementPage";
+import { ParticleBacktrackingPage } from "../components/Dashboard/pages/ParticleBacktrackingPage";
+import { SourceAttributionPage } from "../components/Dashboard/pages/SourceAttributionPage";
 import { useAuth } from "../store/useAuth";
 
 function ProtectedRoute({ children }) {
@@ -106,6 +108,8 @@ export function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route path="/dashboard/particle-backtracking" element={<ProtectedRoute><ParticleBacktrackingPage /></ProtectedRoute>} />
+      <Route path="/dashboard/source-attribution" element={<ProtectedRoute><SourceAttributionPage /></ProtectedRoute>} />
       <Route
         path="/dashboard/sensitive-zones"
         element={

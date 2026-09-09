@@ -59,12 +59,29 @@ Open:
 - `POST /simulate`
 - `POST /predict`
 - `POST /sar/analyze` (authenticated multipart image upload)
+- `POST /backtrack` (authenticated deterministic, environment-driven particle hindcast)
+- `POST /attribution` (authenticated historical-AIS candidate ranking when a real AIS CSV is configured)
 
 ## Notes
 
 The current simulation and prediction services are intentionally baseline implementations so the backend can be developed before the frontend and trained ML model are ready.
 
 The `/predict` service is designed as the integration point for the future trained model.
+
+## Investigation stages
+
+`POST /backtrack` accepts an observed UTC time, unsigned decimal coordinates,
+and explicit hemisphere directions (`N`/`S`, `E`/`W`). It converts them to
+signed coordinates, obtains weather and marine conditions from the existing
+environment service, and produces a GeoJSON trajectory and source-uncertainty
+area. It is a deterministic physics-inspired baseline, not a trained model.
+
+`POST /attribution` accepts Stage 2's signed source location, source time and
+source-area GeoJSON. Set `OILTRACE_AIS_DATA_PATH` to a real historical AIS CSV
+to enable the reusable `ml/attribution` scoring module. Without a configured
+real feed it returns an explicit no-data result; it never creates fake live
+vessels. Platform and natural-seep catalogues are intentionally reported as
+unavailable until a verified source is configured.
 
 ## SAR Stage 1 detection
 

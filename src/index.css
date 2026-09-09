@@ -3682,6 +3682,27 @@ h3,
   font-size: 11px;
   line-height: 1.5;
 }
+
+/* Stage 2 + 3 investigation workflow */
+.investigation-stages { display:flex; align-items:center; gap:24px; margin:0 0 22px; padding:16px 18px; border:1px solid var(--line, #dce4ed); border-radius:16px; background:#fff; }
+.investigation-stages > div:first-child { min-width:150px; display:grid; gap:3px; }
+.investigation-stages small, .investigation-stages b { font-size:11px; letter-spacing:.08em; color:#627086; text-transform:uppercase; }
+.investigation-stages b { color:#17243a; font-size:13px; letter-spacing:0; text-transform:none; }
+.investigation-stage-list { display:flex; flex:1; gap:8px; }
+.investigation-stage-list button { flex:1; display:flex; align-items:center; gap:8px; text-align:left; padding:9px; border:1px solid transparent; border-radius:10px; background:transparent; color:#526075; cursor:pointer; }
+.investigation-stage-list button:hover, .investigation-stage-list button.active { background:#eef5ff; border-color:#bed9f5; color:#155e9f; }
+.investigation-stage-list button > span { display:grid; place-items:center; width:22px; height:22px; border-radius:50%; background:#dce6f1; font-size:12px; font-weight:800; }
+.investigation-stage-list button.active > span { background:#1674b9; color:#fff; }
+.investigation-stage-list strong { font-size:12px; line-height:1.2; }.investigation-stage-list strong small { display:block; margin-top:2px; font-size:10px; font-weight:400; letter-spacing:0; text-transform:none; }
+.investigation-layout, .attribution-layout { display:grid; grid-template-columns:minmax(300px,.82fr) minmax(0,1.3fr); gap:20px; }
+.investigation-panel, .investigation-result { padding:22px; border:1px solid var(--line, #dce4ed); border-radius:16px; background:#fff; }
+.investigation-panel > small, .investigation-result > small { color:#287bb9; letter-spacing:.1em; font-weight:800; font-size:11px; }.investigation-panel h2 { margin:7px 0 19px; font-size:20px; color:#17243a; }
+.investigation-panel label { display:grid; gap:7px; margin:0 0 13px; color:#526075; font-size:12px; font-weight:700; }.investigation-panel input, .investigation-panel select { box-sizing:border-box; width:100%; padding:10px 11px; border:1px solid #cbd7e4; border-radius:8px; background:#fbfdff; color:#17243a; font:inherit; }
+.coordinate-grid { display:grid; grid-template-columns:2fr 1fr; column-gap:10px; }.investigation-note { color:#68778d; font-size:12px; line-height:1.55; }.source-summary { display:grid; gap:4px; margin:15px 0; }.source-summary span { color:#68778d; font-size:12px; }.source-summary b { color:#17243a; font-size:18px; }.source-summary small, .result-details { color:#627086; font-size:12px; }
+.trajectory-graphic { padding:13px; border-radius:12px; background:linear-gradient(135deg,#eaf6ff,#f7fbfe); color:#245b86; }.trajectory-graphic > div { display:flex; justify-content:space-between; font-size:11px; }.trajectory-graphic svg { display:block; width:100%; height:180px; }.trajectory-graphic polyline { fill:none; stroke:#1674b9; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }.trajectory-graphic circle:first-of-type { fill:#ea7e36; }.trajectory-graphic circle:last-of-type { fill:#1779b8; stroke:#fff; stroke-width:4; }.trajectory-graphic small { color:#68778d; font-size:10px; }.result-details { display:flex; justify-content:space-between; gap:12px; padding:12px 0; }.sar-next-stage { margin-top:12px; }
+.attribution-empty { text-align:center; max-width:540px; margin:30px auto; }.attribution-empty svg { color:#1f7ebc; }.attribution-empty h2 { color:#17243a; }.attribution-results > .investigation-note { margin-top:14px; }.data-status { margin:12px 0; padding:9px; border-radius:8px; background:#f4f7fa; color:#65758a; font-size:11px; }.candidate-card { display:grid; grid-template-columns:1fr auto; gap:6px 14px; margin-top:12px; padding:15px; border:1px solid #dce5ee; border-radius:12px; }.candidate-card span, .candidate-card small, .candidate-card p, .candidate-card li { color:#627086; font-size:11px; }.candidate-card h3 { margin:3px 0; color:#17243a; font-size:16px; }.candidate-card > strong { color:#1775b5; font-size:20px; text-align:right; }.candidate-card > strong small { display:block; font-size:10px; font-weight:500; }.candidate-card > p, .candidate-card ul { grid-column:1 / -1; margin:2px 0; }.candidate-card ul { padding-left:18px; }.candidate-card li { margin:3px 0; }
+@media (max-width: 900px) { .investigation-stages { align-items:flex-start; flex-direction:column; gap:10px; }.investigation-stage-list { width:100%; }.investigation-layout, .attribution-layout { grid-template-columns:1fr; } }
+@media (max-width: 560px) { .investigation-stage-list { flex-direction:column; }.result-details { flex-direction:column; }.coordinate-grid { grid-template-columns:1fr; } }
 .sar-drop-zone span,
 .sar-file-name {
   color: #718096;
