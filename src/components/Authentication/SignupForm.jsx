@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AuthFooter,
-  Divider,
-  GoogleButton,
   Input,
   AuthLayout,
 } from "../../layouts/AuthLayout";
@@ -12,7 +10,7 @@ import { getAuthErrorMessage } from "../../utils/auth";
 
 export function SignupForm() {
   const navigate = useNavigate();
-  const { signUp, signInWithGoogle } = useAuth();
+  const { signUp } = useAuth();
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -28,27 +26,40 @@ export function SignupForm() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    if (
+      !form.firstName.trim() ||
+      !form.lastName.trim() ||
+      !form.email.trim() ||
+      !form.organisation.trim() ||
+      !form.password
+    ) {
+      setError("Please complete all fields.");
+      return;
+    }
+    if (form.password.length < 6) {
+      setError("Password must contain at least 6 characters.");
+      return;
+    }
+    if (!form.consent) {
+      setError("Please confirm that you are authorised to access the platform.");
+      return;
+    }
     const name =
-      [form.firstName.trim(), form.lastName.trim()].filter(Boolean).join(" ") ||
-      "OilTrace User";
-    const email = form.email.trim() || "user@oiltrace.local";
-    const organisation = form.organisation.trim() || "OilTrace Operations";
-    signUp({ name, email, organisation });
-    setStatus("success");
-    navigate("/dashboard");
-  }
-
-  function handleGoogleSignup() {
+      [form.firstName.trim(), form.lastName.trim()].join(" ");
+    const email = form.email.trim();
+    const organisation = form.organisation.trim();
     setError("");
     setStatus("loading");
-    signInWithGoogle()
-      .then(() => navigate("/dashboard"))
-      .catch((authError) => {
-        setStatus("idle");
-        setError(getAuthErrorMessage(authError));
-      });
+    try {
+      await signUp({ name, email, organisation, password: form.password });
+      setStatus("success");
+      navigate("/dashboard");
+    } catch (authError) {
+      setStatus("idle");
+      setError(getAuthErrorMessage(authError));
+    }
   }
 
   return (
@@ -57,8 +68,6 @@ export function SignupForm() {
       <p className="auth-subtitle">
         Accounts are provisioned per response organisation.
       </p>
-      <GoogleButton onClick={handleGoogleSignup} loading={status === "loading"} />
-      <Divider />
       <form onSubmit={handleSubmit} noValidate>
         <div className="name-row">
           <Input

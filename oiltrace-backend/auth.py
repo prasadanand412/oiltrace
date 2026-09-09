@@ -3,6 +3,7 @@ import hmac
 import os
 import sqlite3
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Optional
 
 import jwt
@@ -10,7 +11,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
 
-DB_PATH = "oiltrace.db"
+DB_PATH = os.getenv("OILTRACE_DB_PATH", str(Path(__file__).with_name("oiltrace.db")))
 SECRET_KEY = os.getenv("OILTRACE_SECRET_KEY", "change-this-secret-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60

@@ -15,7 +15,7 @@ export function AuthAside() {
           <br /> coastal districts
         </h2>
         <p>
-          Nereid keeps detection, simulation and response coordination on a single
+          OilTrace keeps detection, simulation and response coordination on a single
           incident record — from the first radar return to shoreline sign-off.
         </p>
         <div className="feature-list">

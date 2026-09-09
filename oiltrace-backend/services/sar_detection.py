@@ -9,9 +9,11 @@ from pathlib import Path
 from PIL import Image
 
 
+BACKEND_ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
-if str(REPOSITORY_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPOSITORY_ROOT))
+ML_ROOT = BACKEND_ROOT / "ml" if (BACKEND_ROOT / "ml").is_dir() else REPOSITORY_ROOT / "ml"
+if str(ML_ROOT.parent) not in sys.path:
+    sys.path.insert(0, str(ML_ROOT.parent))
 
 class PipelineUnavailableError(RuntimeError):
     """Raised when the optional ML runtime or model weights are unavailable."""
@@ -25,7 +27,7 @@ def _model_path() -> Path:
     configured_path = os.getenv("OILTRACE_SAR_MODEL_PATH")
     if configured_path:
         return Path(configured_path).expanduser()
-    return REPOSITORY_ROOT / "ml" / "detection" / "checkpoints" / "sar_unet_best.pt"
+    return ML_ROOT / "detection" / "checkpoints" / "sar_unet_best.pt"
 
 
 def _get_model():

@@ -6,6 +6,7 @@ from fastapi import FastAPI, Depends, File, HTTPException, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
+import httpx
 from PIL import Image, UnidentifiedImageError
 
 from auth import (
@@ -46,6 +47,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -180,10 +183,13 @@ async def environment(
     longitude: float,
     current_user=Depends(get_current_user),
 ):
-    return await get_environment(
-        latitude,
-        longitude,
-    )
+    try:
+        return await get_environment(latitude, longitude)
+    except httpx.HTTPError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Weather and marine data are temporarily unavailable.",
+        ) from exc
 
 
 @app.post(

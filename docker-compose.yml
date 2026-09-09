@@ -7,6 +7,10 @@ services:
     container_name: oiltrace-backend
     ports:
       - "8001:8000"
+    environment:
+      OILTRACE_DB_PATH: /app/data/oiltrace.db
+    volumes:
+      - oiltrace-data:/app/data
     restart: unless-stopped
 
   frontend:
@@ -19,3 +23,6 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
+volumes:
+  oiltrace-data:

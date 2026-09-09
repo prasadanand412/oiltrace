@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "./auth-context";
 import {
-  firebaseAuth,
-  getFirebaseProfile,
-  saveFirebaseProfile,
-  signInWithGooglePopup,
-  signOutFirebase,
-} from "../services/firebase";
-import { onAuthStateChanged } from "firebase/auth";
+  apiRequest,
+  clearAccessToken,
+  getAccessToken,
+  storeAccessToken,
+} from "../services/api";
 
 const SESSION_KEY = "oiltrace.auth.session";
 const PROFILES_KEY = "oiltrace.auth.profiles";
@@ -46,25 +44,31 @@ function getStoredSession() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => getStoredSession());
-  const [authLoading, setAuthLoading] = useState(Boolean(firebaseAuth));
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    if (!firebaseAuth) {
-      return undefined;
-    }
-    return onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
+    async function restoreServerSession() {
+      if (!getAccessToken()) {
+        setUser(null);
+        setAuthLoading(false);
+        return;
+      }
       try {
-        if (firebaseUser) {
-          const profile = await getFirebaseProfile(firebaseUser);
-          persistSession(profile, true);
-          setUser(profile);
-        } else {
-          setUser(null);
-        }
+        const account = await apiRequest("/me");
+        const savedProfile = getStoredSession() || {};
+        const profile = { ...defaultProfile, ...savedProfile, email: account.username };
+        persistSession(profile, Boolean(window.localStorage.getItem("access_token")));
+        setUser(profile);
+      } catch {
+        clearAccessToken();
+        window.localStorage.removeItem(SESSION_KEY);
+        window.sessionStorage.removeItem(SESSION_KEY);
+        setUser(null);
       } finally {
         setAuthLoading(false);
       }
-    });
+    }
+    void restoreServerSession();
   }, []);
 
   function persistSession(profile, remember = true) {
@@ -74,29 +78,35 @@ export function AuthProvider({ children }) {
     storage.setItem(SESSION_KEY, JSON.stringify(profile));
   }
 
-  function signIn({ email, remember = true }) {
-    const normalizedEmail = email.trim().toLowerCase();
+  async function signIn({ email, password, remember = true }) {
+    const body = new URLSearchParams({ username: email.trim(), password });
+    const token = await apiRequest("/auth/login", {
+      authenticated: false,
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    });
+    storeAccessToken(token.access_token, remember);
+    const account = await apiRequest("/me");
     const profiles = getProfiles();
-    const profile = profiles[normalizedEmail];
-    if (!profile) return false;
-
-    const session = { ...profile };
-    persistSession(session, remember);
-    setUser(session);
-    return true;
-  }
-
-  async function signInWithGoogle() {
-    const profile = await signInWithGooglePopup();
-    const profiles = getProfiles();
-    profiles[profile.email.toLowerCase()] = profile;
-    saveProfiles(profiles);
-    persistSession(profile, true);
+    const profile = {
+      ...defaultProfile,
+      ...(profiles[account.username.toLowerCase()] || {}),
+      email: account.username,
+      name: profiles[account.username.toLowerCase()]?.name || account.username,
+    };
+    persistSession(profile, remember);
     setUser(profile);
     return profile;
   }
 
-  function signUp({ name, email, organisation, remember = true }) {
+  async function signUp({ name, email, organisation, password, remember = true }) {
+    await apiRequest("/auth/register", {
+      authenticated: false,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: email.trim(), password }),
+    });
     const profile = {
       ...defaultProfile,
       name: name.trim(),
@@ -106,18 +116,15 @@ export function AuthProvider({ children }) {
     const profiles = getProfiles();
     profiles[profile.email.toLowerCase()] = profile;
     saveProfiles(profiles);
-
-    const storage = remember ? window.localStorage : window.sessionStorage;
-    const otherStorage = remember ? window.sessionStorage : window.localStorage;
-    otherStorage.removeItem(SESSION_KEY);
-    storage.setItem(SESSION_KEY, JSON.stringify(profile));
-    setUser(profile);
+    return signIn({ email: profile.email, password, remember });
   }
 
   function signOut() {
+    const token = getAccessToken();
+    if (token) void apiRequest("/auth/logout", { method: "POST" }).catch(() => undefined);
+    clearAccessToken();
     window.localStorage.removeItem(SESSION_KEY);
     window.sessionStorage.removeItem(SESSION_KEY);
-    void signOutFirebase();
     setUser(null);
   }
 
@@ -135,7 +142,6 @@ export function AuthProvider({ children }) {
     saveProfiles(profiles);
 
     persistSession(updatedUser, Boolean(window.localStorage.getItem(SESSION_KEY)));
-    if (updatedUser.provider === "google.com") await saveFirebaseProfile(updatedUser);
     setUser(updatedUser);
   }
 
@@ -146,7 +152,6 @@ export function AuthProvider({ children }) {
         authLoading,
         isAuthenticated: Boolean(user),
         signIn,
-        signInWithGoogle,
         signUp,
         signOut,
         updateProfile,

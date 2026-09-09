@@ -9,8 +9,7 @@ import {
   Users,
   UserRound,
 } from "lucide-react";
-
-const API_URL = "http://127.0.0.1:8001";
+import { apiRequest } from "../../../services/api";
 
 export function UserManagementPage() {
   const [users, setUsers] = useState([]);
@@ -22,25 +21,7 @@ export function UserManagementPage() {
     setError("");
 
     try {
-      const token = localStorage.getItem("access_token");
-
-      if (!token) {
-        throw new Error("Authentication token not found.");
-      }
-
-      const response = await fetch(`${API_URL}/admin/users`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.detail || "Unable to load users.");
-      }
-
+      const data = await apiRequest("/admin/users");
       setUsers(Array.isArray(data) ? data : []);
       setStatus("success");
     } catch (err) {
